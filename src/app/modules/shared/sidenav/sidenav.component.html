@@ -1,0 +1,101 @@
+<mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #snav fixedTopGap="56" position="end" [mode]="'over'">
+        <mat-nav-list class="p-4">
+
+            <h5>
+                <b>Select variants and quantity</b>
+            </h5>
+
+            <div class="gi-cart-inner">
+                <div class="gi-cart-top">
+                    <ul class="gi-cart-pro-items mt-5">
+                        @for(model of productDetails?.model; track model._id){
+                        <li
+                            class="mb-[15px] p-[15px] flex overflow-hidden border-[1px] border-solid border-[#eee] rounded-[5px]">
+                            <a class="gi-pro-img flex grow-[1] basis-[20%] items-center">
+                                <img [attr.src]="productDetails?.image[0] | secureImage: '/assets/img/product-images/4_1.jpg' | async"
+                                    alt="Product Image" class="object-contain"
+                                    [ngClass]="{ 'rounded w-100 h-100': true }" />
+                            </a>
+                            <div class="gi-pro-content relative grow-[1] basis-[70%] pl-[15px] overflow-hidden">
+                                <a
+                                    class="cart-pro-title w-full pr-[30px] text-[#777]! whitespace-normal overflow-hidden text-ellipsis block text-[15px] leading-[18px] font-normal">
+                                    {{model?.name}}
+                                </a>
+                                <span class="cart-price text-[14px] block mt-[5px]">
+                                    <span class="text-[#777] font-semibold text-[16px]">
+                                        ₹{{ getPriceForQuantity(model, quantities[model._id]) | number:'1.2-2' }}
+                                    </span>
+                                    | 1 piece
+                                </span>
+                                <span class="cart-price text-[14px] block">
+                                    <span class="text-[#777] font-semibold text-[13px]">
+                                        Min. order: {{getFirstMoqMin(model)}} Piece
+                                    </span>
+                                </span>
+                                <div class="gi-pro-variation mb-[20px] mt-4 pb-[5px]">
+                                    <div
+                                        class="gi-pro-variation-inner gi-pro-variation-size text-[16px] font-semibold text-[#4b5966] flex-col mb-[15px] flex">
+                                        <span
+                                            class="mb-[10px] text-[#202020] font-medium text-[15px] leading-[1.1] tracking-[0.04rem] uppercase font-Poppins block"><b>Selected
+                                                Variant</b></span>
+                                        <div class="gi-pro-variation-content">
+                                            <ul>
+                                                <li *ngFor="let variant of getSelectedVariantDisplay()[model._id]"
+                                                    class="h-[22px] font-normal transition-all isSelected duration-[0.3s] ease-in-out py-[5px] px-[10px] cursor-pointer flex items-center justify-center text-[12px] leading-[22px] border-[1px] border-solid border-[#eee] float-left rounded-[5px]">
+                                                    <span><b>{{ variant.name }}</b> : {{ variant.value }}</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="cart-subtotal text-[14px] mt-2">
+                                    <b>SubTotal</b> : ₹{{ model.subTotal | number:'1.2-2' }}
+                                </div>
+                            </div>
+                            <div class="quickview-pro-content">
+                                <div class="gi-quickview-qty">
+                                    <div class="qty-plus-minus">
+                                        <div class="dec gi-qtybtn" (click)="decrementQuantity(model)">-</div>
+                                        <input class="qty-input" name="gi_qtybtn" [value]="quantities[model._id] || 0"
+                                            (input)="onQuantityChange(model, $event)" min="0" />
+                                        <div class="inc gi-qtybtn" (click)="incrementQuantity(model)">+</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        }
+                    </ul>
+                </div>
+                <div class="gi-cart-bottom">
+                    <div class="cart-sub-total">
+                        <table class="table cart-table">
+                            <tbody>
+                                <tr>
+                                    <td class="text-left"> <b>Sub-Total :</b> </td>
+                                    <td class="text-right">₹ {{getSubTotal()}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left"> <b>GST (18%) :</b> </td>
+                                    <td class="text-right">₹ {{getGst()}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left"> <b>Total :</b> </td>
+                                    <td class="text-right">₹ {{getFinalTotal()}} </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="cart_btn" (click)="addToCart()">
+                        <a class="gi-btn-2">Add To Cart</a>
+                    </div>
+                </div>
+            </div>
+        </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+        <ng-content></ng-content>
+    </mat-sidenav-content>
+</mat-sidenav-container>

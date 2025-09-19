@@ -1,0 +1,146 @@
+<div class="flex flex-col sm:flex-row items-center md:items-start sm:justify-center md:justify-start flex-auto min-w-0">
+
+    <div class="relative hidden md:flex flex-auto items-center justify-center w-1/2 h-full overflow-hidden bg-primary-800 dark:border-l"
+        style="background: url(/assets/img/hero-bg/top-banner-1.jpg);background-size: cover;background-position: top right;object-fit: contain;background-repeat: no-repeat;height: 100vh;">
+    </div>
+
+    <div
+        class="md:flex w-full justify-center items-center md:h-full md:w-1/2 py-8 px-4 sm:p-12 md:p-16 sm:rounded-2xl md:rounded-none sm:shadow md:shadow-none sm:bg-card">
+        <div class="w-full max-w-90 sm:w-90 mx-auto sm:mx-0">
+            <div class="md:flex w-full justify-between">
+                <!-- Logo -->
+                <div class="w-32 pb-5">
+                    <img [attr.src]="companyLogo | secureImage:'/assets/img/logo/logo.png' | async"
+                        style="width: 50px;">
+                </div>
+
+                <p class="mt-3">bizLink Signin</p>
+            </div>
+
+            <!-- Title -->
+            <div class="mt-8 text-4xl font-extrabold tracking-tight leading-tight">Sign in</div>
+
+            <!-- Alert -->
+            <!-- <fuse-alert class="mt-8" *ngIf="showAlert" [appearance]="'outline'" [showIcon]="false" [type]="alert.type"
+                [@shake]="alert.type === 'error'">
+                {{alert.message}}
+            </fuse-alert> -->
+
+            <!-- Sign in form -->
+            <form class="mt-8" [formGroup]="signInForm" #signInNgForm="ngForm">
+
+                <!-- Email field -->
+                <!-- <mat-form-field class="w-full">
+                    <mat-label>Email</mat-label>
+                    <input id="email" matInput [formControlName]="'email'">
+                    <mat-error *ngIf="signInForm.get('email').hasError('required')">
+                        Email address is required
+                    </mat-error>
+                    <mat-error *ngIf="signInForm.get('email').hasError('email')">
+                        Please enter a valid email address
+                    </mat-error>
+                </mat-form-field> -->
+
+                <!-- GST No field -->
+                <mat-form-field class="w-full" appearance="outline">
+                    <!-- <mat-label>GST No</mat-label> -->
+                    <input id="email" matInput [formControlName]="'email'" placeholder="Enter Email" type="text">
+                    @if(signInForm.get('email')?.hasError('required')){
+                    <mat-error class="p-0 m-0">
+                        Email is required
+                    </mat-error>
+                    }
+                </mat-form-field>
+
+                <!-- Password field -->
+                <mat-form-field class="w-full" appearance="outline">
+                    <!-- <mat-label>Password</mat-label> -->
+                    <input id="password" matInput type="password" [formControlName]="'password'" #passwordField
+                        placeholder="Enter Password">
+                    <button mat-icon-button type="button"
+                        (click)="passwordField.type === 'password' ? passwordField.type = 'text' : passwordField.type = 'password'"
+                        matSuffix>
+                        @if(passwordField.type === 'password'){
+                        <mat-icon class="icon-size-5">
+                            <i class="bi bi-eye-slash"></i>
+                        </mat-icon>
+                        }
+                        @if(passwordField.type === 'text'){
+                        <mat-icon class="icon-size-5">
+                            <i class="bi bi-eye"></i>
+                        </mat-icon>
+                        }
+                    </button>
+                    <mat-error>
+                        Password is required
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- Actions -->
+                <!-- [formControlName]="'rememberMe'" -->
+                <div class="inline-flex items-center justify-between w-full">
+                    <!-- <mat-checkbox style="visibility: hidden;" class="-ml-2">
+                        Remember me
+                    </mat-checkbox> -->
+
+                    <a class="cursor-pointer" style="color: #777; font-size: 12px;" (click)="goTo('register')">
+                        You are not a member yet? <span style="color: #10b2e3; font-size: 12px;"> Sign up</span>
+                    </a>
+
+                    <a class="cursor-pointer" style="color: #10b2e3; font-size: 12px;" (click)="forgotPassword()">Forgot
+                        password?
+                    </a>
+                </div>
+
+                <!-- Submit button -->
+                <button class="fuse-mat-button-large w-full mt-6" mat-flat-button
+                    style="background-color: #10b2e3; color: white;" [disabled]="signInForm.disabled"
+                    (click)="signIn()">
+                    @if(!signInForm.disabled){
+                    <span>
+                        Sign in
+                    </span>
+                    }
+                    @if(signInForm.disabled){
+                    <mat-progress-spinner [diameter]="24" [mode]="'indeterminate'"></mat-progress-spinner>
+                    }
+                </button>
+
+                <!-- Separator -->
+                <!-- <div class="flex items-center mt-8">
+                    <div class="flex-auto mt-px border-t"></div>
+                    <div class="mx-2 text-secondary">Or continue with</div>
+                    <div class="flex-auto mt-px border-t"></div>
+                </div> -->
+
+                <!-- Single sign-on buttons -->
+                <!-- <div class="flex items-center mt-8 space-x-4">
+                    <button
+                        class="flex-auto"
+                        type="button"
+                        mat-stroked-button>
+                        <mat-icon
+                            class="icon-size-5"
+                            [svgIcon]="'feather:facebook'"></mat-icon>
+                    </button>
+                    <button
+                        class="flex-auto"
+                        type="button"
+                        mat-stroked-button>
+                        <mat-icon
+                            class="icon-size-5"
+                            [svgIcon]="'feather:twitter'"></mat-icon>
+                    </button>
+                    <button
+                        class="flex-auto"
+                        type="button"
+                        mat-stroked-button>
+                        <mat-icon
+                            class="icon-size-5"
+                            [svgIcon]="'feather:github'"></mat-icon>
+                    </button>
+                </div> -->
+            </form>
+        </div>
+    </div>
+</div>

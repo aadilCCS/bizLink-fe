@@ -1,0 +1,135 @@
+<div class="flex flex-wrap justify-between items-center mx-auto">
+    <div class="modal-content">
+        <button type="button" class="btn-close qty_close" (click)="onSubmit()"></button>
+        <div class="modal-body p-5 w-full">
+            <div class="row">
+                <div class="col-md-5 col-sm-12 col-xs-12">
+                    <div class="single-pro-img single-pro-img-no-sidebar">
+                        <div class="single-product-scroll">
+                            <div class="single-product-cover overflow-hidden rounded-[5px]">
+                                <swiper-container thumbs-swiper=".mySwiper2"
+                                    class="single-product-cover overflow-hidden cursor-zoom-in rounded-[5px]">
+
+                                    @if(data?.video){
+                                    <swiper-slide class="single-slide zoom-image-hover">
+                                        <video controls
+                                            [attr.src]="data?.video | secureImage : '../../../../assets/icons/add_photo.svg'| async "
+                                            alt="Product Video"
+                                            [ngClass]="{ 'rounded w-full max-h-full': data?.video }">
+                                        </video>
+                                    </swiper-slide>
+                                    }
+
+                                    @for (image of data?.image; track $index) {
+                                    <swiper-slide class="single-slide zoom-image-hover">
+                                        <img [attr.src]="(image | secureImage: '/assets/img/product-images/4_1.jpg') | async"
+                                            alt="Product Image" [ngClass]="{ 'rounded w-100 h-100': true }" />
+                                    </swiper-slide>
+                                    } @empty {
+                                    <li>There are no items.</li>
+                                    }
+                                </swiper-container>
+                                <swiper-container class="mySwiper2 single-nav-thumb w-full overflow-hidden"
+                                    style="--swiper-navigation-color: #000; --swiper-pagination-color: #000; --swiper-navigation-size: 20px;"
+                                    space-between="10" slides-per-view="4" free-mode="true" navigation="true"
+                                    watch-slides-progress="true">
+
+                                    <swiper-slide class="single-slide px-[11px] pt-[11px]">
+                                        <video
+                                            [attr.src]="data?.video | secureImage : '../../../../assets/icons/add_photo.svg'| async "
+                                            alt="Product Video" [ngClass]="{ 'rounded w-100 h-100': true }">
+                                        </video>
+                                    </swiper-slide>
+
+                                    @for (image of data?.image; track image) {
+                                    <swiper-slide class="single-slide px-[11px] pt-[11px]">
+                                        <img class="img-responsive h-full w-full border-[1px] border-solid border-transparent transition-all duration-[0.3s] ease delay-[0s] cursor-pointer rounded-[5px]"
+                                            [attr.src]="(image | secureImage: '../../../../assets/img/pages/about-0.png') | async"
+                                            alt="Product Image" [ngClass]="{ 'rounded w-100 h-100': true }" />
+                                    </swiper-slide>
+                                    } @empty {
+                                    <li>There are no items.</li>
+                                    }
+                                </swiper-container>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-7 col-sm-12 col-xs-12">
+                    <div class="quickview-pro-content">
+                        <h5 class="gi-quick-title" (click)="goTo('/shop/product-details/'+ data?.id)">
+                            <a>{{data?.name}}</a>
+                        </h5>
+                        <div class="gi-quickview-rating">
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star"></i>
+                        </div>
+
+                        <ng-container *ngIf="data?.model?.length > 1">
+                            <search-dropdown class="col-md-4" placeholder="Select Product Model"
+                                (changeEvent)="selectedModel($event)" [dropdownType]="DROPDOWN_TYPE.SEARCH"
+                                [options]="productModel" optionViewKey="name" [outputPattern]="['_id']">
+                            </search-dropdown>
+                        </ng-container>
+
+                        <div class="flex">
+                            @for(item of productModelDetail?.moqs; track item._id) {
+
+                            <div class="gi-single-price-stoke flex justify-between">
+                                <div class="gi-single-price flex flex-col ps-2">
+                                    <span class="text-[#999] text-[13px] capitalize">
+                                        min. order: {{item.min}} - {{item.max}} piece
+                                    </span>
+                                    <div
+                                        class="final-price mb-[15px] text-[#4b5966] font-semibold text-[22px] leading-[32px] font-Poppins tracking-[0] max-[1199px]:text-[20px]">
+                                        ₹{{item.price}}
+                                    </div>
+                                </div>
+                            </div>
+                            }
+                        </div>
+
+                        <div class="gi-pro-variation mb-[20px] pb-[5px]">
+                            @for(variant of productModelDetail?.variant; track variant._id) {
+                            <div
+                                class="gi-pro-variation-inner gi-pro-variation-size text-[16px] font-semibold text-[#4b5966] flex-col mb-[15px] flex">
+                                <span
+                                    class="mb-[10px] text-[#202020] font-medium text-[15px] leading-[1.1] tracking-[0.04rem] uppercase font-Poppins block">{{variant?.variantName?.name}}</span>
+                                <div class="gi-pro-variation-content">
+                                    <ul>
+                                        @for(variantValue of variant?.variantValue; track variantValue.id)
+                                        {
+                                        <li
+                                            class="h-[22px] font-normal transition-all duration-[0.3s] ease-in-out py-[5px] px-[10px] cursor-pointer flex items-center justify-center text-[12px] leading-[22px] border-[1px] border-solid border-[#eee] float-left rounded-[5px]">
+                                            <span class="">{{variantValue?.value}}</span>
+                                        </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                            }
+                        </div>
+
+                        <div class="bg-[#f7f7f7] p-[15px] border-[1px] border-solid border-[#eee]">
+                            <p class="m-0 p-0">Sample Price: ₹
+                                <span>{{productModelDetail?.samplePrice}}</span>
+                            </p>
+                        </div>
+
+                        <div class="gi-quickview-qty mt-3">
+                            <div class="gi-quickview-cart ">
+                                <button class="gi-btn-1"
+                                (click)="goTo('/shop/product-details/'+ data?.id)"><i class="bi bi-basket"></i>
+                                Go To Product Detail
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,34 @@
+<mat-form-field class="fuse-mat-dense w-full" floatLabel="always" appearance="outline">
+    <!-- simple dropdown -->
+    <!-- <mat-label [ngClass]="{'danger' : control.touched && control.errors}" *ngIf="fieldLabel">{{ fieldLabel }}
+    </mat-label> -->
+    <!-- <mat-label *ngIf="fieldLabel">{{ fieldLabel }}
+    </mat-label> -->
+    <mat-select [disabled]="isFieldDisabled" [required]="isFieldRequired || false" [errorStateMatcher]="stateMatcher"
+        [placeholder]="placeholder" [(ngModel)]='initialValue' (blur)="onTouched()"
+        *ngIf="dropdownType === DROPDOWN_TYPE.SIMPLE" (selectionChange)="generateDpResult($event)"
+        [multiple]="multipleSelection">
+        <mat-option *ngIf="showAllOption">All</mat-option>
+        <mat-option *ngFor="let opt of options" [value]="opt[optionViewKey]">
+            {{opt[optionViewKey]}}
+        </mat-option>
+    </mat-select>
+
+    <!-- search dropdown  -->
+    <mat-select (closed)="closedMatSelect()" [disabled]="isFieldDisabled" [required]="isFieldRequired || false"
+        *ngIf="dropdownType === DROPDOWN_TYPE.SEARCH" [errorStateMatcher]="stateMatcher" [placeholder]="placeholder"
+        [(ngModel)]='initialValue' (blur)="onTouched()" (selectionChange)="generateDpResult($event)"
+        [multiple]="multipleSelection">
+        <mat-option>
+            <ngx-mat-select-search (input)="searchHandler($event)" [placeholderLabel]="'Search '+fieldLabel"
+                noEntriesFoundLabel="No data found">
+                <mat-icon (click)="matSearchClear()" ngxMatSelectSearchClear>close</mat-icon>
+            </ngx-mat-select-search>
+        </mat-option>
+        <mat-option *ngIf="showAllOption">All</mat-option>
+        <mat-option *ngFor="let base of filteredOptions" [value]="base[optionViewKey]">
+            {{base[optionViewKey]}}
+        </mat-option>
+
+    </mat-select>
+</mat-form-field>

@@ -1,0 +1,197 @@
+<div class="checkout-container bg-white">
+  <app-bread-crumb breadCrumbName="Check out"></app-bread-crumb>
+
+  <!-- Checkout section -->
+  <section class="gi-checkout-section py-[40px] text-[14px] max-[767px]:py-[30px]">
+    <h2 class="hidden">Checkout Page</h2>
+    <div
+      class="flex flex-wrap justify-between items-center mx-auto min-[1600px]:max-w-[1600px] min-[1400px]:max-w-[1320px] min-[1200px]:max-w-[1140px] min-[992px]:max-w-[960px] min-[768px]:max-w-[720px] min-[576px]:max-w-[540px] relative">
+      <div class="flex flex-wrap w-full">
+        <!-- Sidebar Area Start -->
+        <div class="gi-checkout-rightside px-[12px] min-[992px]:w-[33.33%] w-full">
+          <div class="gi-sidebar-wrap border-[1px] border-solid border-[#eee] mb-[30px] p-[15px] rounded-[5px]">
+            <!-- Sidebar Summary Block -->
+            <div class="gi-sidebar-block">
+              <div class="gi-sb-title">
+                <h3
+                  class="gi-checkout-title mb-[26px]! leading-[1.2]! text-[20px]! font-semibold tracking-[0] relative block text-[#4b5966]! font-Montserrat max-[575px]:text-[18px]">
+                  Summary</h3>
+              </div>
+              <div class="gi-sb-block-content mt-[15px]">
+                <div class="gi-checkout-summary">
+                  <div class="flex justify-between items-center mb-[10px]">
+                    <span class="text-left text-[#777] text-[14px] leading-[24px] tracking-[0]">Sub-Total</span>
+                    <span
+                      class="text-right text-[#4b5966] text-[15px] leading-[24px] font-medium">₹{{getSubTotal().toFixed(2)}}</span>
+                  </div>
+                  <div class="flex justify-between items-center mb-[10px]">
+                    <span class="text-left text-[#777] text-[14px] leading-[24px] tracking-[0]">GST Charges</span>
+                    <span
+                      class="text-right text-[#4b5966] text-[15px] leading-[24px] font-medium">₹{{getGst().toFixed(2)}}</span>
+                  </div>
+                  <div class="flex justify-between items-center mb-[10px]">
+                    <span class="text-left text-[#777] text-[14px] leading-[24px] tracking-[0]">Coupan Discount</span>
+                    <span class="text-right text-[#4b5966] text-[15px] leading-[24px] font-medium"><a
+                        class="gi-checkout-coupan text-[#10b2e3]! text-[14px] font-medium">Apply Coupan</a></span>
+                  </div>
+                  <div class="gi-checkout-coupan-content mb-[10px]">
+                    <form
+                      class="gi-checkout-coupan-form flex border-[1px] border-solid border-[#eee] p-[5px] rounded-[5px]"
+                      name="gi-checkout-coupan-form" method="post">
+                      <input
+                        class="gi-coupan inline-block align-top leading-[35px] h-[35px] w-full text-[#777] text-[14px] border-[0] bg-transparent text-left pl-[10px] pr-[10px] tracking-[0.5px] rounded-[5px] outline-[0]"
+                        type="text" required="" placeholder="Enter Your Coupan Code" name="gi-coupan" value="">
+                      <button type="submit"
+                        class="gi-coupan-btn gi-btn-2 text-[16px] text-center px-[15px] transition-all duration-[0.3s] ease-in-out font-medium bg-[#10b2e3] text-[#fff] rounded-[5px] hover:bg-[#4b5966] hover:text-[#fff]"
+                        name="subscribe" value="">Apply</button>
+                    </form>
+                  </div>
+                  <div
+                    class="gi-checkout-summary-total border-t-[1px] border-solid border-[#eee] pt-[19px] mb-[0] mt-[16px] flex justify-between items-center">
+                    <span class="text-left text-[16px] font-semibold text-[#4b5966] tracking-[0] font-manrope">Total
+                      Amount</span>
+                    <span
+                      class="text-right text-[16px] font-semibold text-[#4b5966] font-manrope">₹{{getGrandTotal().toFixed(2)}}</span>
+                  </div>
+                </div>
+
+                <div class="gi-cart-inner max-h-[350px] overflow-auto">
+                  <div class="gi-cart-top">
+                    @if(cartItemList && cartItemList.length){
+                    <ul class="gi-cart-pro-items mt-5">
+                      @for(cart of cartItemList; track cart._id){
+                      @for(model of cart?.model; track model._id){
+                      <li
+                        class="mb-[15px] p-[15px] flex overflow-hidden border-[1px] border-solid border-[#eee] rounded-[5px]">
+                        <a class="gi-pro-img flex grow-[1] basis-[20%] items-center">
+                          <img
+                            [attr.src]="cart?.productId?.image[0] | secureImage: '/assets/img/product-images/4_1.jpg' | async"
+                            alt="Product Image" [ngClass]="{ 'rounded object-contain w-100 h-100': true }" />
+                        </a>
+                        <div class="gi-pro-content relative grow-[1] basis-[70%] pl-[15px] overflow-hidden">
+                          <a
+                            class="cart-pro-title w-full pr-[30px] text-[#777]! whitespace-normal overflow-hidden text-ellipsis block text-[15px] leading-[18px] font-normal">
+                            {{model?.name}}
+                          </a>
+                          <span class="cart-price text-[14px] block mt-[5px]">
+                            <span class="text-[#777] font-semibold text-[16px]">
+                              ₹{{ getPriceForQuantity(model, model.quantity) | number:'1.2-2' }}
+                            </span>
+                            | 1 piece
+                          </span>
+                          <span class="cart-price text-[14px] block">
+                            <span class="text-[#777] font-semibold text-[13px]">
+                              Min. order: {{getFirstMoqMin(model)}} Piece
+                            </span>
+                          </span>
+                        </div>
+                      </li>
+                      }
+                      }
+                    </ul>
+                    } @else {
+                    <li> </li>
+                    }
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Sidebar Summary Block -->
+          </div>
+
+          <div
+            class="gi-sidebar-wrap gi-check-pay-img-wrap border-[1px] border-solid border-[#eee] p-[15px] rounded-[5px]">
+            <!-- Sidebar Payment Block -->
+            <div class="gi-sidebar-block">
+              <div class="gi-sb-title">
+                <h3
+                  class="gi-checkout-title mb-[26px]! leading-[1.2]! text-[20px]! font-semibold tracking-[0] relative block text-[#4b5966]! font-Montserrat max-[575px]:text-[18px]">
+                  Payment Method</h3>
+              </div>
+              <div class="gi-sb-block-content mt-[15px]">
+                <div class="gi-check-pay-img-inner flex justify-between w-full flex-wrap">
+                  <div class="gi-check-pay-img">
+                    <img src="assets/img/hero-bg/payment.png" class="w-full" alt="payment">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Sidebar Payment Block -->
+          </div>
+        </div>
+        <div class="gi-checkout-leftside px-[12px] min-[992px]:w-[66.66%] w-full max-[991px]:mt-[30px]">
+          <!-- checkout content Start -->
+          <div class="gi-checkout-content">
+            <div class="gi-checkout-inner">
+              <div
+                class="gi-checkout-wrap pb-[3px] p-[30px] border-[1px] border-solid border-[#eee] bg-[#fff] rounded-[5px] mb-[20px]">
+                <div class="gi-checkout-block gi-check-bill">
+                  <div class="flex justify-between w-full">
+                    <h3
+                      class="gi-checkout-title mb-[26px]! leading-[1.2]! text-[20px]! font-semibold tracking-[0] relative block text-[#4b5966]! font-Montserrat max-[575px]:text-[18px]">
+                      Address Details
+                    </h3>
+                    <div>
+                      <button (click)="openAddPopup()">
+                        <i class="bi bi-plus"></i>
+                        Add
+                      </button>
+                    </div>
+                  </div>
+
+                  @for(item of addressList; track item.id){
+                  <div class="gi-bl-block-content">
+                    <span class="flex justify-between items-center">
+                      <input type="radio" [id]="'address'+item.id" name="radio-group" checked="true"
+                        (change)="selectedAddress(item.id)" [value]="item.id" [(ngModel)]="selectedAdd">
+                      <label [htmlFor]="'address'+item.id"
+                        class="relative pl-[26px] cursor-pointer leading-[16px] inline-block text-[#777] tracking-[0] mb-[15px]">
+                        {{(item?.fullName ? item?.fullName : loggedInUserDetails?.name) ?? '-'}}
+                      </label>
+
+                      <span (click)="openAddPopup(item.id)">
+                        <i class="bi bi-pencil-square"></i>
+                        Edit
+                      </span>
+                    </span>
+                    <span class="gi-bill-option block">
+                      {{item.fullAddress ?? '-'}}
+                    </span>
+                    <span class="gi-bill-option mb-[32px] block">
+                      <b>Phone Number :</b>
+                      +91{{(item?.phoneNo ? item?.phoneNo : loggedInUserDetails?.phoneNo) ?? '-'}}
+                    </span>
+
+                  </div>
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex justify-between items-center">
+            <span>
+              <a> <b>Continue Shopping</b> </a>
+            </span>
+            <!-- @if(!isLoading){ -->
+            <span>
+              <button class="gi-btn-2" (click)="orderPlace()">
+                @if(!isLoading){
+                Proceed to Payment
+                } @else {
+                <mat-progress-spinner class="text-[#fff]!" [diameter]="24"
+                  [mode]="'indeterminate'"></mat-progress-spinner>
+                }
+              </button>
+            </span>
+            <!-- } -->
+            <!-- @if(isLoading){
+            <mat-progress-spinner [diameter]="24" [mode]="'indeterminate'"></mat-progress-spinner>
+            } -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Checkout section End -->
+</div>

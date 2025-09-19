@@ -1,0 +1,151 @@
+<h4 class="popup-heading font-bold text-lg px-6 py-3 bg-primary text-white flex justify-between">
+    {{data.action === 'return' ? 'Return Order' : 'Cancel Order'}}
+    <!-- <mat-icon class="text-white text-lg cursor-pointer" >close</mat-icon> -->
+    <i class="bi bi-x" (click)="closeModal()"></i>
+</h4>
+
+<ng-container *ngIf="data.action === 'return'">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="w-full rounded bg-white rounded-t-none p-6">
+            <!-- <h4 class="font-bold text-base px-6 py-3 border rounded rounded-b-none border-b-0">
+                General Details
+            </h4> -->
+            <div class="w-full border rounded p-6 md:pb-3 md:pr-1 rounded-t-none">
+                <mat-form-field class="fuse-mat-dense md:w-6/12 w-full md:pr-5" floatLabel="always">
+                    <mat-label>Order No</mat-label>
+                    <input matInput placeholder="Enter Order No" formControlName="orderNo" readonly="true" />
+                </mat-form-field>
+
+                <div class="use-mat-dense md:w-6/12 w-full md:pr-5 inline-block" floatLabel="always">
+                    <app-ng-date-time-picker formControlName="pickupDate" placeholder="Select Pickup Date"
+                        labelText="Pickup Date" [showRangePicker]="false" [locale]="{ format: 'DD/MM/YYYY' }">
+                    </app-ng-date-time-picker>
+                </div>
+
+                <mat-form-field class="fuse-mat-dense md:w-6/12 w-full md:pr-5" floatLabel="always">
+                    <mat-label>Reason</mat-label>
+                    <textarea matInput placeholder="Enter Reason" formControlName="reason"></textarea>
+                </mat-form-field>
+
+                <mat-form-field class="fuse-mat-dense md:w-6/12 w-full md:pr-5" floatLabel="always">
+                    <mat-label>Comment</mat-label>
+                    <textarea matInput placeholder="Enter Comment" formControlName="comment"></textarea>
+                </mat-form-field>
+
+            </div>
+
+            <div class="flex justify-end mt-6">
+                <button mat-stroked-button color="primary" type="button" class="rounded" [disabled]="!submitEnable"
+                    (click)="closeModal()">
+                    Cancel
+                </button>
+                <button mat-raised-button color="primary" class="rounded ml-5" [disabled]="!submitEnable">
+                    Save
+                </button>
+            </div>
+        </div>
+    </form>
+</ng-container>
+
+<ng-container *ngIf="data.action === 'cancelled'">
+    <form [formGroup]="cancelOrderform" (ngSubmit)="oncancelFormSubmit()">
+        <div class="w-full rounded bg-white rounded-t-none p-6">
+            <!-- <h4 class="font-bold text-base px-6 py-3 border rounded rounded-b-none border-b-0">
+                General Details
+            </h4> -->
+            <div class="w-full border rounded p-6 md:pb-3 md:pr-1 rounded-t-none">
+                <mat-form-field class="fuse-mat-dense md:w-12/12 w-full md:pr-5" floatLabel="always">
+                    <mat-label>Order No</mat-label>
+                    <input matInput placeholder="Enter Order No" formControlName="orderNo" readonly="true" />
+                </mat-form-field>
+
+                <mat-form-field class="fuse-mat-dense md:w-12/12 w-full md:pr-5" floatLabel="always">
+                    <mat-label>Reason</mat-label>
+                    <textarea matInput placeholder="Enter Reason" formControlName="reason"></textarea>
+                </mat-form-field>
+
+            </div>
+
+            <div class="flex justify-end mt-6">
+                <button mat-stroked-button color="primary" type="button" class="rounded" [disabled]="!submitEnable"
+                    (click)="closeModal()">
+                    Cancel
+                </button>
+                <button mat-raised-button color="primary" type="submit" class="rounded ms-3" [disabled]="!submitEnable" >
+                    Save
+                </button>
+            </div>
+        </div>
+    </form>
+</ng-container>
+
+<!-- <div class="w-full border rounded p-6 md:pr-1 rounded-t-none md:flex flex-wrap" *ngIf="data.action == 'received'">
+    <div class="md:w-6/12 mb-3 p-2">
+        <h6 class="font-semibold mb-2">Order No.</h6>
+        <p> {{data?.item?.orderNumber ?? '-'}} </p>
+    </div>
+    <div class="md:w-6/12 mb-3 p-2">
+        <h6 class="font-semibold mb-2">Order Date</h6>
+        <p> {{(data?.item?.orderDate | date : "dd/MM/yyyy") ?? '-'}} </p>
+    </div>
+    <div class="md:w-6/12 ">
+        <h6 class="font-bold text-primary ">Order Items.</h6>
+    </div>
+
+    <table class="mt-5 mb-5 text-center border" [width]="'100%'" [border]="1">
+        <tr class="border">
+            <th>#</th>
+            <th>Product Name</th>
+            <th>Quantity</th>
+            <th>Rate</th>
+            <th>Base Total</th>
+            <th>Taxes</th>
+        </tr>
+        <ng-container *ngIf="data?.item?.item?.length > 0; else noSellerResponse">
+            <tr *ngFor="let res of data?.item?.item; let i = index" class="border">
+                <td>{{(i+1)}}</td>
+                <td>{{res?.productId?.name}}</td>
+                <td>{{res?.quantity ?? '-'}}</td>
+                <td>{{res?.rate ?? '-'}}</td>
+                <td>₹{{res?.subTotal.toFixed(2) ?? '-'}}</td>
+                <td>₹{{res?.gstTotal.toFixed(2) ?? '-'}}</td>
+            </tr>
+            <tr class="border">
+                <td colspan="4" class="text-right font-bold">Total</td>
+                <td class="font-bold">₹{{data?.item?.item[0]?.subTotal.toFixed(2) ?? '-'}}</td>
+                <td class="font-bold">₹{{data?.item?.item[0]?.gstTotal.toFixed(2) ?? '-'}}</td>
+            </tr>
+            <tr class="border">
+                <td colspan="4" class="text-right font-bold">Grand Total</td>
+                <td colspan="2" class="font-bold">₹{{data?.item?.item[0]?.grandTotal.toFixed(2) ?? '-'}}</td>
+            </tr>
+        </ng-container>
+        <ng-template #noSellerResponse>
+            <tr>
+                <td colspan="5">No item found</td>
+            </tr>
+        </ng-template>
+    </table>
+
+    <mat-form-field class="fuse-mat-dense md:w-6/12 w-full md:pr-5 " floatLabel="always">
+        <mat-label>Payment Amount</mat-label>
+        <input matInput placeholder="Enter Payment Amount" [(ngModel)]="paymentAmount">
+    </mat-form-field>
+
+    <div class="use-mat-dense md:w-6/12 w-full md:pr-5 inline-block" floatLabel="always">
+        <app-ng-date-time-picker [(ngModel)]="paymentDate" placeholder="Select Payment Date" labelText="Payment Date"
+            [showRangePicker]="false" [locale]="{ format: 'DD/MM/YYYY' }">
+        </app-ng-date-time-picker>
+    </div>
+
+    <mat-form-field class="fuse-mat-dense md:w-6/12 w-full md:pr-5 " floatLabel="always">
+        <mat-label>Remarks</mat-label>
+        <input matInput placeholder="Enter Remarks" [(ngModel)]="remarks">
+    </mat-form-field>
+
+    <div class="use-mat-dense md:w-6/12 w-full inline-block mt-6" floatLabel="always">
+        <button mat-raised-button color="primary" class="rounded" (click)="payment()">
+            Payment
+        </button>
+    </div>
+</div> -->

@@ -1,0 +1,493 @@
+<!-- Hero Slider Start -->
+<section class="section gi-hero pt-5">
+    <div class="container">
+        <div class="gi-main-content">
+            <!-- Hero Slider Start -->
+            <div class="gi-slider-content">
+                <div class="gi-main-slider">
+                    <swiper-container #swiperRef pagination="true" speed="500" loop="true"
+                        class="gi-slider main-slider-nav main-slider-dot">
+                        @for (banner of bannerList; track banner.id) {
+                        <swiper-slide class="gi-slide-item swiper-slide d-flex">
+                            <img [attr.src]="(banner.image | secureImage: '../../../../assets/img/pages/about-0.png') | async"
+                                alt="" [ngClass]="{ 'rounded w-100 h-100': true }" />
+                            <div class="gi-slide-content" style="position: absolute; bottom: 25%;">
+                                <p>{{banner.subTitle}}</p>
+                                <h1 class="gi-slide-title">{{banner.title}}</h1>
+                                <div class="gi-slide-btn">
+                                    <a class="gi-btn-1" (click)="goTo('/shop')">Shop Now <i
+                                            class="fi-rr-angle-double-small-right" aria-hidden="true"></i></a>
+                                </div>
+                            </div>
+                        </swiper-slide>
+                        } @empty {
+                        <ngx-skeleton-loader count="1"
+                            [theme]="{width: '1140px',height: '500px','border-radius': '10px'}">
+                        </ngx-skeleton-loader>
+                        }
+                    </swiper-container>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Hero Slider End -->
+
+<!-- Category section -->
+<section class="gi-category body-bg padding-tb-40 wow fadeInUp" data-wow-duration="2s">
+    <div class="container">
+        <div class="row m-b-minus-15px">
+            <div class="col-xl-12 col-sm-12 col-md-6 border-content-color">
+                <swiper-container slides-per-view="auto" loop="true" class="gi-category-block owl-carousel">
+                    @for(category of categoryList[0]?.subCategory; track category.id) {
+                    <swiper-slide class="gi-cat-box gi-cat-box-2 w-[200px] mr-[24px] ">
+                        <div class="gi-cat-icon cursor-pointer" (click)="goTo('/shop/'+ category?.id)">
+                            <i class="fi fi-tr-bread"></i>
+                            <div class="gi-cat-detail">
+                                <a>
+                                    <h4 class="gi-cat-title">{{category?.name}}</h4>
+                                </a>
+                                <p class="items">{{category?.productCount}} Items</p>
+                            </div>
+                        </div>
+                    </swiper-slide>
+                    }
+                </swiper-container>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Category section End -->
+
+<!--  Day Of The Deal Start -->
+<section class="gi-deal-section padding-tb-40 wow fadeInUp" data-wow-duration="2s">
+    <div class="container">
+        <div class="row overflow-hidden m-b-minus-24px">
+            <div class="gi-deal-section col-lg-12">
+                <div class="gi-products">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="section-title">
+                                <div class="section-detail">
+                                    <h2 class="gi-title">Day of the <span>deal</span></h2>
+                                    <p>Don't wait. The time will never be just right.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Tab Start -->
+                        <div class="col-md-8">
+                            <swiper-container slides-per-view="auto" class="gi-pro-tab-nav nav">
+                                @for(category of categoryList[0]?.subCategory; track category.id) {
+                                <swiper-slide class="nav-item w-[150px]! ps-[100px]">
+                                    <a class="nav-link active pt-[18px]!" (click)="getNewArrivals(category.id)"
+                                        data-bs-toggle="tab">{{category?.name}}</a>
+                                </swiper-slide>
+                                }
+                            </swiper-container>
+                        </div>
+                        <!-- Tab End -->
+                    </div>
+
+                    <div class="gi-deal-block m-minus-lr-12" data-aos="fade-up" data-aos-duration="2000"
+                        data-aos-delay="300">
+                        <swiper-container slides-per-view="auto" loop="true"
+                            class="deal-slick-carousel gi-product-slider row">
+                            @for (product of latestProductList; track product.id) {
+                            <swiper-slide class="gi-product-content col-md-3 col-sm-12">
+                                <div class="gi-product-inner" (click)="goTo('/shop/product-details/'+ product?.id)">
+                                    <div class="gi-pro-image-outer">
+                                        <div class="gi-pro-image">
+                                            <a class="image">
+                                                <span class="label veg">
+                                                    <span class="dot"></span>
+                                                </span>
+                                                <img [attr.src]="(product.image[0] | secureImage: 'assets/img/product-images/default-img.png') | async"
+                                                    alt="" class="main-image" />
+                                            </a>
+                                            <span class="flags">
+                                                <span class="sale">Sale</span>
+                                            </span>
+                                            <div class="gi-pro-actions">
+                                                <a class="gi-btn-group wishlist" title="Wishlist"
+                                                    [ngClass]="{'isSelected': product.isWishlisted}"
+                                                    (click)="_globalService.addToWishlist(product.id)">
+                                                    <i class="bi bi-heart"></i>
+                                                </a>
+                                                <a class="gi-btn-group quickview" title="Quick view"
+                                                    (click)="_globalService.openQuickView(product)">
+                                                    <i class="bi bi-eye"></i>
+                                                </a>
+                                                <!-- <a title="Add To Cart" class="gi-btn-group add-to-cart"
+                                                    [ngClass]="{'isSelected': product.isAddToCart}"
+                                                    (click)="_globalService.addToCart(product)">
+                                                    <i class="bi bi-bag"></i>
+                                                </a> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="gi-pro-content">
+                                        <a>
+                                            <h6 class="gi-pro-stitle">{{product?.subCategory?.name}}</h6>
+                                        </a>
+                                        <h5 class="gi-pro-title truncate">
+                                            <a>
+                                                {{product?.name}}
+                                            </a>
+                                        </h5>
+                                        <div class="gi-pro-rat-price">
+                                            <span class="gi-pro-rating">
+                                                <bar-rating class="star" effect [max]="5" [rate]="product?.ratings || 4"
+                                                    [readonly]="true" formControlName="rating">
+                                                </bar-rating>
+                                            </span>
+                                            <span
+                                                class="gi-price text-[18px] flex items-center justify-left text-[#4b5966] tracking-[0.4px]">
+                                                <span
+                                                    class="new-price text-[#4b5966] font-bold text-[14px] mr-[7px] tracking-[0.02rem]">₹
+                                                    {{product?.priceRange}}
+                                                </span>
+                                            </span>
+                                            <span class="text-[#999] text-[13px] capitalize">
+                                                min. order: {{product?.minOrder}} piece
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </swiper-slide>
+                            } @empty {
+                            <div class="w-full flex items-center justify-center">
+                                <img src="assets/img/product-not-found.jpg" alt="" class="w-[200px] h-[200px]">
+                            </div>
+                            }
+
+                        </swiper-container>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--  Day Of The Deal Start End -->
+
+<!-- Banner section -->
+<section class="gi-banner padding-tb-40 wow fadeInUp" data-wow-duration="2s">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="gi-animated-banner" data-aos="fade-up" data-aos-duration="2000" data-aos-delay="200">
+                    <h2 class="d-none">Offers</h2>
+                    <div class="gi-bnr-detail">
+                        <div class="gi-bnr-info">
+                            <h2>On Time! On budget!<br>Guaranteed to last </h2>
+                            <h3>30% off sale <span>Hurry up!!!</span></h3>
+                            <a (click)="goTo('/shop')" class="gi-btn-2">Shop now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Banner section End -->
+
+<!-- New Product tab Area Start -->
+<section class="gi-product-tab gi-products padding-tb-40 wow fadeInUp" data-wow-duration="2s">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="section-title">
+                    <div class="section-detail">
+                        <h2 class="gi-title">New <span>Arrivals</span></h2>
+                        <p>Shop online for new arrivals and get free shipping!</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Tab Start -->
+            <div class="col-md-8">
+                <swiper-container slides-per-view="auto" class="gi-pro-tab-nav nav">
+                    @for(category of categoryList[0]?.subCategory; track category.id) {
+                    <swiper-slide class="nav-item w-[150px]!">
+                        <a class="nav-link active pt-[18px]!" (click)="getNewArrivals(category.id)"
+                            data-bs-toggle="tab">{{category?.name}}</a>
+                    </swiper-slide>
+                    }
+                </swiper-container>
+            </div>
+            <!-- Tab End -->
+        </div>
+        <!-- New Product -->
+        <div class="row m-b-minus-24px">
+            <div class="col">
+                <div class="tab-content">
+                    <div class="tab-pane fade show active product-block" id="all">
+                        <div class="row">
+                            @for (product of newArrivalList?.items; track product.id) {
+                            <div class="col-md-3 col-sm-6 col-xs-6">
+                                <div class="gi-product-content">
+                                    <div class="gi-product-inner" (click)="goTo('/shop/product-details/'+ product?.id)">
+                                        <div class="gi-pro-image-outer">
+                                            <div class="gi-pro-image">
+                                                <a class="image">
+                                                    <span class="label veg">
+                                                        <span class="dot"></span>
+                                                    </span>
+                                                    <img [attr.src]="(product.image[0] | secureImage: 'assets/img/product-images/default-img.png') | async"
+                                                        alt="" class="img-fluid" />
+                                                </a>
+                                                <span class="flags">
+                                                    <span class="sale">Sale</span>
+                                                </span>
+                                                <div class="gi-pro-actions">
+                                                    <a class="gi-btn-group wishlist"
+                                                        (click)="_globalService.addToWishlist(product.id)"
+                                                        [ngClass]="{'isSelected': product.isWishlisted}"
+                                                        title="Wishlist">
+                                                        <i class="bi bi-heart"></i>
+                                                    </a>
+                                                    <a class="gi-btn-group quickview"
+                                                        (click)="_globalService.openQuickView(product)"
+                                                        title="Quick view">
+                                                        <i class="bi bi-eye"></i>
+                                                    </a>
+                                                    <!-- <a title="Add To Cart" class="gi-btn-group add-to-cart"
+                                                        [ngClass]="{'isSelected': product.isAddToCart}"
+                                                        (click)="_globalService.addToCart(product)">
+                                                        <i class="bi bi-bag"></i>
+                                                    </a> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="gi-pro-content">
+                                            <a>
+                                                <h6 class="gi-pro-stitle">{{product?.subCategory?.name}}</h6>
+                                            </a>
+                                            <h5 class="gi-pro-title truncate">
+                                                <a>{{product?.name}}</a>
+                                            </h5>
+                                            <div class="gi-pro-rat-price">
+                                                <span class="gi-pro-rating">
+                                                    <bar-rating class="star" effect [max]="5"
+                                                        [rate]="product?.ratings || 4" [readonly]="true"
+                                                        formControlName="rating">
+                                                    </bar-rating>
+                                                </span>
+
+                                                <span class="gi-price">
+                                                    <span class="new-price">
+                                                        ₹ {{product?.priceRange}}
+                                                    </span>
+                                                </span>
+                                                <span class="text-[#999] text-[13px] capitalize">
+                                                    min. order: {{product?.minOrder}} piece
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            } @empty {
+                            <div class="w-full flex items-center justify-center">
+                                <img src="assets/img/product-not-found.jpg" alt="" class="w-[200px] h-[200px]">
+                            </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Product tab Area End -->
+
+<!-- Service Section -->
+<section class="gi-service-section padding-tb-40">
+    <div class="container">
+        <div class="row m-tb-minus-12">
+            <div class="gi-ser-content gi-ser-content-1 col-sm-6 col-md-6 col-lg-3 p-tp-12 wow fadeInUp">
+                <div class="gi-ser-inner">
+                    <div class="gi-service-image">
+                        <i class="bi bi-truck"></i>
+                    </div>
+                    <div class="gi-service-desc">
+                        <h3>Free Shipping</h3>
+                        <p>Free shipping on all US order or order above $200</p>
+                    </div>
+                </div>
+            </div>
+            <div class="gi-ser-content gi-ser-content-2 col-sm-6 col-md-6 col-lg-3 p-tp-12 wow fadeInUp"
+                data-wow-delay=".4s">
+                <div class="gi-ser-inner">
+                    <div class="gi-service-image">
+                        <i class="bi bi-gear"></i>
+                    </div>
+                    <div class="gi-service-desc">
+                        <h3>24X7 Support</h3>
+                        <p>Contact us 24 hours a day, 7 days a week</p>
+                    </div>
+                </div>
+            </div>
+            <div class="gi-ser-content gi-ser-content-3 col-sm-6 col-md-6 col-lg-3 p-tp-12 wow fadeInUp"
+                data-wow-delay=".6s">
+                <div class="gi-ser-inner">
+                    <div class="gi-service-image">
+                        <i class="bi bi-arrow-repeat"></i>
+                    </div>
+                    <div class="gi-service-desc">
+                        <h3>30 Days Return</h3>
+                        <p>Simply return it within 30 days for an exchange</p>
+                    </div>
+                </div>
+            </div>
+            <div class="gi-ser-content gi-ser-content-4 col-sm-6 col-md-6 col-lg-3 p-tp-12 wow fadeInUp"
+                data-wow-delay=".8s">
+                <div class="gi-ser-inner">
+                    <div class="gi-service-image">
+                        <i class="bi bi-coin"></i>
+                    </div>
+                    <div class="gi-service-desc">
+                        <h3>Payment Secure</h3>
+                        <p>Contact us 24 hours a day, 7 days a week</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Service Section End -->
+
+<!--  Trending Product Start -->
+<section class="gi-deal-section padding-tb-40 wow fadeInUp" data-wow-duration="2s">
+    <div class="container">
+        <div class="row overflow-hidden m-b-minus-24px">
+            <div class="gi-deal-section col-lg-12">
+                <div class="gi-products">
+                    <div class="section-title" data-aos="fade-up" data-aos-duration="2000" data-aos-delay="200">
+                        <div class="section-detail">
+                            <h2 class="gi-title">Trending <span>Product</span></h2>
+                        </div>
+                        <div id="dealend" class="dealend-timer"></div>
+                    </div>
+                    <div class="gi-deal-block m-minus-lr-12" data-aos="fade-up" data-aos-duration="2000"
+                        data-aos-delay="300">
+                        <swiper-container slides-per-view="auto" loop="true"
+                            class="deal-slick-carousel gi-product-slider">
+                            @for (product of latestProductList; track product.id) {
+                            <swiper-slide class="gi-product-content col-md-3 col-sm-12">
+                                <div class="gi-product-inner" (click)="goTo('/shop/product-details/'+ product?.id)">
+                                    <div class="gi-pro-image-outer">
+                                        <div class="gi-pro-image">
+                                            <a class="image">
+                                                <span class="label veg">
+                                                    <span class="dot"></span>
+                                                </span>
+                                                <img [attr.src]="(product.image[0] | secureImage: 'assets/img/product-images/default-img.png') | async"
+                                                    alt="" class="main-image" />
+                                            </a>
+                                            <span class="flags">
+                                                <span class="sale">Sale</span>
+                                            </span>
+                                            <div class="gi-pro-actions">
+                                                <a class="gi-btn-group wishlist"
+                                                    (click)="_globalService.addToWishlist(product.id)" title="Wishlist"
+                                                    [ngClass]="{'isSelected': product.isWishlisted}">
+                                                    <i class="bi bi-heart"></i>
+                                                </a>
+                                                <a class="gi-btn-group quickview"
+                                                    (click)="_globalService.openQuickView(product)" title="Quick view">
+                                                    <i class="bi bi-eye"></i>
+                                                </a>
+                                                <!-- <a title="Add To Cart" class="gi-btn-group add-to-cart"
+                                                    (click)="_globalService.addToCart(product)"
+                                                    [ngClass]="{'isSelected': product.isAddToCart}">
+                                                    <i class="bi bi-bag"></i>
+                                                </a> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="gi-pro-content">
+                                        <a>
+                                            <h6 class="gi-pro-stitle">{{product?.subCategory?.name}}</h6>
+                                        </a>
+                                        <h5 class="gi-pro-title truncate">
+                                            <a>
+                                                {{product?.name}}
+                                            </a>
+                                        </h5>
+                                        <div class="gi-pro-rat-price">
+                                            <span class="gi-pro-rating">
+                                                <bar-rating class="star" effect [max]="5" [rate]="product?.ratings || 4"
+                                                    [readonly]="true" formControlName="rating">
+                                                </bar-rating>
+                                            </span>
+                                            <span
+                                                class="gi-price text-[18px] flex items-center justify-left text-[#4b5966] tracking-[0.4px]">
+                                                <span
+                                                    class="new-price text-[#4b5966] font-bold text-[14px] mr-[7px] tracking-[0.02rem]">₹
+                                                    {{product?.priceRange}}
+                                                </span>
+                                            </span>
+                                            <span class="text-[#999] text-[13px] capitalize">
+                                                min. order: {{product?.minOrder}} piece
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </swiper-slide>
+                            } @empty {
+                            <div class="w-full flex items-center justify-center">
+                                <img src="assets/img/product-not-found.jpg" alt="" class="w-[200px] h-[200px]">
+                            </div>
+                            }
+
+                        </swiper-container>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--  Trending Product Start End -->
+
+<!-- Blog Section Start -->
+<section class="gi-blog-section padding-tb-40 wow fadeInUp">
+    <div class="container">
+        <div class="row m-b-minus-24px">
+            <div class="section-title">
+                <div class="section-detail">
+                    <h2 class="gi-title">Latest <span>Blog</span></h2>
+                    <p>We tackle interesting topics every day in 2023.</p>
+                </div>
+                <span class="title-link">
+                    <a>All Blogs<i class="fi-rr-angle-double-small-right"></i></a>
+                </span>
+            </div>
+            <swiper-container slides-per-view="4" speed="500" loop="true" class="gi-blog-carousel owl-carousel">
+                @for(item of blogList; track $index){
+                <swiper-slide class="gi-blog-item mr-[24px]">
+                    <div class="blog-info">
+                        <figure class="blog-img"><a>
+                                <img [attr.src]="(item.image | secureImage: '../../../../assets/img/pages/about-0.png') | async"
+                                    alt="Blog Img" [ngClass]="{ 'rounded w-100 h-100': true }" />
+                            </a>
+                        </figure>
+                        <div class="detail">
+                            <label>{{item?.createdAt | date : 'dd/MM/yyyy'}} -
+                                <a>{{item?.category?.name}}</a>
+                            </label>
+                            <h3><a>{{item?.name}}</a></h3>
+                            <div class="more-info">
+                                <a>Read More<i class="fi-rr-angle-double-small-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </swiper-slide>
+                } @empty {
+                <div class="w-full flex items-center justify-center">
+                    <img src="assets/img/product-not-found.jpg" alt="" class="w-[200px] h-[200px]">
+                </div>
+                }
+            </swiper-container>
+        </div>
+    </div>
+</section>
+<!-- Blog Section End -->

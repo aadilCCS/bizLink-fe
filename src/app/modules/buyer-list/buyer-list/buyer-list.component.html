@@ -1,0 +1,65 @@
+<div class="checkout-container bg-white">
+  <app-bread-crumb breadCrumbName="Buyer List"></app-bread-crumb>
+
+  <section class="gi-checkout-section py-[20px] text-[14px] max-[767px]:py-[30px] h-[500px] overflow-auto">
+    <div
+      class="flex flex-wrap justify-between items-center mx-auto min-[1600px]:max-w-[1600px] min-[1400px]:max-w-[1320px] min-[1200px]:max-w-[1140px] min-[992px]:max-w-[960px] min-[768px]:max-w-[720px] min-[576px]:max-w-[540px] relative">
+      <div class="flex flex-wrap w-full">
+
+        <!-- Buyers List -->
+        <div class="space-y-6 w-full">
+          @for(buyer of getBuyerList; track buyer.id){
+          <div class="border rounded-lg p-4 shadow-sm">
+            <div class="flex space-x-4">
+              <!-- Image Carousel -->
+              <div class="relative w-32 h-30 rounded overflow-hidden">
+                <img [attr.src]="(buyer?.businessInfo?.logo | secureImage: 'assets/img/user/dummy-user.jpg') | async"
+                  alt="" [ngClass]="{ 'rounded w-100 h-100': true }" />
+              </div>
+
+              <!-- Buyer Info -->
+              <div class="flex-1">
+                <div
+                  class="gi-checkout-title mb-[15px]! leading-[1.2]! text-[20px]! font-semibold tracking-[0] relative block text-[#4b5966]! font-Montserrat max-[575px]:text-[18px]">
+                  {{ buyer?.businessInfo?.name }}
+                </div>
+
+                <div class="flex items-center text-gray-600 text-sm mt-2 space-x-2">
+                  <i class="bi bi-geo-alt"></i>
+                  <span>
+                    {{
+                    buyer && ( buyer?.address?.address1 || buyer?.address?.address2 || buyer?.address?.city?.name ||
+                    buyer?.address?.state?.name )
+                    ? (buyer?.address?.address1 || '') + ', ' + (buyer?.address?.address2 || '') + ', ' +
+                    (buyer?.address?.city?.name || '') + ', ' + (buyer?.address?.state?.name || '') + ', ' +
+                    (buyer?.address?.pinCode || '') : '-'
+                    }}
+                  </span>
+                </div>
+
+                <div class="flex space-x-3 mt-4">
+                  <button (click)="showNumber()"
+                    class="bg-gray-100 border border-gray-300 px-4 py-2 rounded flex items-center space-x-2 hover:bg-gray-200 me-3">
+                    <i class="bi bi-telephone"></i>
+                    @if(isShowNumber){
+                    <span>{{`+91${buyer.phoneNo}`}}</span>
+                    } @else {
+                    <span>Show Number</span>
+                    }
+                  </button>
+                  <button (click)="openWhatsApp(buyer)"
+                    class="bg-gray-100 border border-gray-300 px-4 py-2 rounded flex items-center space-x-2 hover:bg-gray-200">
+                    <i class="bi bi-whatsapp"></i>
+                    <span>WhatsApp</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>

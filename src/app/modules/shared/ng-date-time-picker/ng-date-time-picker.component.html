@@ -1,0 +1,19 @@
+<mat-form-field class="mat-form-field-width"
+    [ngClass]="{'mat-form-field-invalid ng-touched' : control.touched && control.errors}" floatLabel="always">
+    <mat-label *ngIf="showLabel">{{labelText}} <span *ngIf="required"
+            class="mat-mdc-form-field-required-marker mdc-floating-label--required"></span></mat-label>
+    <mat-icon class="ngx-daterangepicker-action" (click)="isFieldDisabled ? $event.stopPropagation() : open()"
+        matPrefix>today</mat-icon>
+    <input type="text" [placeholder]="placeholder" matInput [matMenuTriggerFor]="menu" readonly
+        [(ngModel)]="controlValue" [disabled]="isFieldDisabled" />
+</mat-form-field>
+
+
+<mat-menu #menu="matMenu" #trigger xPosition="before" class="datepickermenu">
+    <ngx-daterangepicker-material class="md-picker" [locale]="locale" [timePicker]="timePicker"
+        [showClearButton]="showClearButton" (datesUpdated)="onDateUpdated($event)" [singleDatePicker]="!showRangePicker"
+        [timePicker24Hour]="timePicker24Hour" [autoApply]="autoApply" [startDate]="selected.startDate"
+        [endDate]="selected.endDate" [linkedCalendars]="joinCalenderInRange" [minDate]="minDate || ''" [maxDate]="maxDate || ''"
+        [showDropdowns]="showYearMonthDropdown">
+    </ngx-daterangepicker-material>
+</mat-menu>

@@ -1,0 +1,170 @@
+<!-- Breadcrumb start -->
+<app-bread-crumb breadCrumbName="Profile Page"></app-bread-crumb>
+<!-- Breadcrumb end -->
+
+<section class="bg-white">
+    <div
+        class="flex flex-wrap justify-between items-center mx-auto min-[1600px]:max-w-[1600px] min-[1400px]:max-w-[1320px] min-[1200px]:max-w-[1140px] min-[992px]:max-w-[960px] min-[768px]:max-w-[720px] min-[576px]:max-w-[540px] relative">
+        <div class="profile-container w-full bg-white">
+            <nav class="sidebar">
+                <ul>
+                    <li class="section-title">Manage My Account</li>
+                    <li [class]="tabView === 'profile' ? 'active' : ''" (click)="changeTab('profile')">My Profile</li>
+                    <li [class]="tabView === 'order' ? 'active' : ''" (click)="changeTab('order')">My Order</li>
+                </ul>
+            </nav>
+
+            @if(tabView === 'profile'){
+            @if(isProfileEdit){
+            <main class="profile-content">
+                <h2>Edit Your Profile</h2>
+                <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">First Name</label>
+                            <input id="firstName" formControlName="firstName" type="text" placeholder="First Name" />
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Last Name</label>
+                            <input id="lastName" formControlName="lastName" type="text" placeholder="Last Name" />
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group full-width">
+                            <label for="email">Email</label>
+                            <input id="email" formControlName="email" type="email" placeholder="Email" />
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="address">Address</label>
+                            <input id="address" formControlName="address" type="text" placeholder="Address" />
+                        </div>
+                    </div>
+
+                    <h3>Password Changes</h3>
+                    <div class="form-row password-row">
+                        <input id="currentPassword" formControlName="currentPassword" type="password"
+                            placeholder="Current Password" />
+                        <input id="newPassword" formControlName="newPassword" type="password"
+                            placeholder="New Password" />
+                        <input id="confirmNewPassword" formControlName="confirmNewPassword" type="password"
+                            placeholder="Confirm New Password" />
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="cancel-btn" (click)="onCancel()">Cancel</button>
+                        <button type="submit" class="save-btn" [disabled]="profileForm.invalid">Save Changes</button>
+                    </div>
+                </form>
+            </main>
+            } @else {
+
+            <main class="profile-content">
+                <h2>View Your Profile </h2>
+
+                <div class="profile-img">
+                    <!-- <img [attr.src]="companyLogo | secureImage:'/assets/img/logo/logo.png' | async" style="width: 50px;"> -->
+                    <img src="/assets/img/user/dummy-user.jpg" alt="Profile Image">
+                </div>
+                <div class="form-detail-row p-[5px]">
+                    <p> <span class="title">Name :</span> {{LoggedInUserData?.name ?? '-'}}</p>
+                    <p> <span class="title">Email :</span> {{LoggedInUserData?.email ?? '-'}}</p>
+                </div>
+                <div class="form-detail-row p-[5px]">
+                    <p> <span class="title">Phone No :</span> {{LoggedInUserData?.phoneNo ?? '-'}}</p>
+                    <p> <span class="title">GST No :</span> {{LoggedInUserData?.gstNo ?? '-'}}</p>
+                </div>
+
+                <div>
+                    <p>
+                        <i class="bi bi-geo-alt" style="color: #10b2e3;"></i>
+                        {{ getFullAdd(addressDetail)}}
+                    </p>
+                </div>
+            </main>
+            }
+            }
+
+
+            @if(tabView === 'order'){
+            <main class="profile-content">
+                <h2>My Order</h2>
+
+                <div>
+                    <table mat-table [dataSource]="dataSource" matSort class="bg-white">
+                        <!-- <ng-container matColumnDef="no">
+                            <th mat-header-cell *matHeaderCellDef width="70" class="text-center"> No. </th>
+                            <td mat-cell *matCellDef="let element; let i = index" class="text-center">
+                                {{(this.pagination.pageIndex*this.pagination.pageSize) +(i+1)}} 
+                            </td>
+                        </ng-container> -->
+
+                        <ng-container matColumnDef="buyerGst">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Buyer GST </th>
+                            <td mat-cell *matCellDef="let element">{{element?.userId?.gstNo ??
+                                '-'}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="buyerName">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Buyer Name </th>
+                            <td mat-cell *matCellDef="let element">{{element?.userId?.name ??
+                                '-'}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="invoiceNo">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Invoice Number </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element?.orderNumber ?? '-'}}
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="invoiceDate">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Invoice Date </th>
+                            <td mat-cell *matCellDef="let element">{{(element?.orderDate | date: 'dd/MM/yyyy') ?? '-'}}
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="status">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+                            <td mat-cell *matCellDef="let element" class="status-dropdown pt-[12px]!">
+                                <search-dropdown placeholder="Select Type" [dropdownType]="DROPDOWN_TYPE.SEARCH"
+                                    fieldLabel="Status"
+                                    [options]="getOptionsForOrderItem(element.buyerStatus , element.status)"
+                                    optionViewKey="name" [outputPattern]="['id']"
+                                    [ngModel]="element.buyerStatus"
+                                    (changeEvent)="onChangeEStatus($event, element)">
+                                </search-dropdown>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="action">
+                            <th mat-header-cell *matHeaderCellDef> Action </th>
+                            <td mat-cell *matCellDef="let element" (click)="$event.stopPropagation()">
+                                <!-- <div class="flex items-center">
+                                    <button mat-icon-button color="primary" class="rounded pl-0" (click)="onDelete(element)">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div> -->
+
+                                <button mat-icon-button color="accent" color="primary" class="rounded  pl-0" (click)="generatePDF(element.id ,element?.orderNumber)">
+                                    <i class="bi bi-file-earmark-pdf"></i>
+                                </button>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr class="mat-row" *matNoDataRow>
+                            <td class="text-center p-3" [attr.colspan]="displayedColumns.length">
+                                No data found
+                            </td>
+                        </tr>
+                        <tr mat-row *matRowDef="let element; columns: displayedColumns;">
+                        </tr>
+                    </table>
+                </div>
+            </main>
+            }
+
+        </div>
+    </div>
+</section>

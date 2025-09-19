@@ -1,0 +1,392 @@
+<app-bread-crumb breadCrumbName="Product Detail"></app-bread-crumb>
+
+<!-- Sart Single Product -->
+<section
+    class="gi-single-product py-[40px] max-[767px]:py-[30px] relative bg-[#fff] transition-all duration-[0.5s] ease">
+    <div
+        class="flex flex-wrap justify-between items-center mx-auto min-[1600px]:max-w-[1600px] min-[1400px]:max-w-[1320px] min-[1200px]:max-w-[1140px] min-[992px]:max-w-[960px] min-[768px]:max-w-[720px] min-[576px]:max-w-[540px]">
+        <div class="w-full flex flex-row px-[12px]">
+            <div class="gi-pro-rightside gi-common-rightside w-full">
+                <!-- Single product content Start -->
+                <div class="single-pro-block">
+                    <div class="single-pro-inner">
+                        <div class="w-full flex flex-wrap">
+                            <div
+                                class="single-pro-img single-pro-img-no-sidebar w-[50%] relative pr-[12px] max-[991px]:w-full max-[991px]:max-w-[500px] max-[991px]:m-auto max-[991px]:px-[12px] max-[420px]:px-[0]">
+                                <h5
+                                    class="gi-single-title text-[#4b5966] text-[22px] capitalize mb-[20px] block font-Poppins font-medium leading-[35px] tracking-[0.02rem] max-[1199px]:text-[20px] max-[1199px]:leading-[33px] max-[767px]:text-[18px] max-[767px]:text-[18px] max-[767px]:leading-[31px]">
+                                    {{productDetails?.name}}
+                                </h5>
+                                <div class="row gi-single-rating-wrap flex mb-[14px] items-center">
+                                    <div class="col-md-3 gi-single-rating pr-[15px] leading-[17px]">
+                                        <bar-rating class="star" effect [max]="5" [rate]="productDetails?.ratings || 4"
+                                            [readonly]="true">
+                                        </bar-rating>
+                                    </div>
+                                    <span class="col-md-4 gi-read-review text-[#999] leading-[17px]">
+                                        |&nbsp;&nbsp;<a href="#gi-spt-nav-review"
+                                            class="text-[#999]! text-[14px] leading-[20px] hover:text-[#10b2e3]!">
+                                            {{reviewList.length}} Ratings</a>
+                                    </span>
+                                </div>
+                                <div class="single-product-scroll p-[15px] sticky top-[30px] rounded-[5px]">
+                                    <swiper-container thumbs-swiper=".mySwiper2"
+                                        class="single-product-cover overflow-hidden cursor-zoom-in rounded-[5px]">
+
+                                        @if(productDetails?.video){
+                                        <swiper-slide class="single-slide zoom-image-hover">
+                                            <video controls
+                                                [attr.src]="productDetails?.video | secureImage : '../../../../assets/icons/add_photo.svg'| async "
+                                                alt="Product Video"
+                                                [ngClass]="{ 'rounded w-full max-h-full': productDetails?.video }">
+                                            </video>
+                                        </swiper-slide>
+                                        }
+
+                                        @for (image of productDetails?.image; track $index) {
+                                        <swiper-slide class="single-slide zoom-image-hover">
+                                            <img [attr.src]="(image | secureImage: '/assets/img/product-images/4_1.jpg') | async"
+                                                alt="Product Image" [ngClass]="{ 'rounded w-100 h-100': true }" />
+                                        </swiper-slide>
+                                        } @empty {
+                                        <li>There are no items.</li>
+                                        }
+                                    </swiper-container>
+                                    <swiper-container class="mySwiper2 single-nav-thumb w-full overflow-hidden"
+                                        style="--swiper-navigation-color: #000; --swiper-pagination-color: #000; --swiper-navigation-size: 20px;"
+                                        space-between="10" slides-per-view="4" free-mode="true" navigation="true"
+                                        watch-slides-progress="true">
+
+                                        @if(productDetails?.video){
+                                        <swiper-slide class="single-slide px-[11px] pt-[11px]">
+                                            <video
+                                                [attr.src]="productDetails?.video | secureImage : '../../../../assets/icons/add_photo.svg'| async "
+                                                alt="Product Video" [ngClass]="{ 'rounded w-100 h-100': true }">
+                                            </video>
+                                        </swiper-slide>
+                                        }
+
+                                        @for (image of productDetails?.image; track image) {
+                                        <swiper-slide class="single-slide px-[11px] pt-[11px]">
+                                            <img class="img-responsive h-full w-full border-[1px] border-solid border-transparent transition-all duration-[0.3s] ease delay-[0s] cursor-pointer rounded-[5px]"
+                                                [attr.src]="(image | secureImage: '../../../../assets/img/pages/about-0.png') | async"
+                                                alt="Product Image" [ngClass]="{ 'rounded w-100 h-100': true }" />
+                                        </swiper-slide>
+                                        } @empty {
+                                        <li>There are no items.</li>
+                                        }
+                                    </swiper-container>
+                                </div>
+                            </div>
+                            <div
+                                class="single-pro-desc single-pro-desc-no-sidebar w-[50%] pl-[12px] pr-[12px] max-[991px]:pl-[0] max-[991px]:mt-[30px] max-[991px]:w-full border-[1px] border-solid border-[#eee] rounded-lg">
+                                <div class="single-pro-content">
+                                    <div class="flex border-b-[1px] border-solid border-[#eee]">
+                                        @for(item of productModelDetail?.moqs; track item._id) {
+
+                                        <div class="gi-single-price-stoke pt-[15px] pb-[15px] flex justify-between">
+                                            <div class="gi-single-price flex flex-col">
+                                                <span class="text-[#999] text-[13px] capitalize pr-[15px]">
+                                                    Min. Order: {{item.min}} - {{item.max}} piece
+                                                </span>
+                                                <div
+                                                    class="final-price mb-[15px] text-[#4b5966] font-semibold text-[22px] leading-[32px] font-Poppins tracking-[0] max-[1199px]:text-[20px]">
+                                                    ₹{{item.price}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        }
+                                    </div>
+
+                                    @if(productModel?.length > 1){
+                                    <div
+                                        class="gi-pro-variation-inner gi-pro-variation-size mt-3 text-[16px] font-semibold text-[#4b5966] flex-col mb-[15px] flex">
+                                        <span
+                                            class="mb-[10px] text-[#202020] font-medium text-[15px] leading-[1.1] tracking-[0.04rem] uppercase font-Poppins block">Model</span>
+                                        <div class="gi-pro-variation-content">
+                                            <ul>
+                                                @for(model of productModel; track model._id)
+                                                {
+                                                <li class="h-[22px] me-1 font-normal transition-all duration-[0.3s] ease-in-out py-[5px] px-[10px] cursor-pointer flex items-center justify-center text-[12px] leading-[22px] border-[1px] border-solid border-[#eee] float-left rounded-[5px]"
+                                                    (click)="selectedModel(model._id)"
+                                                    [ngClass]="{'isSelected': model._id === productModelDetail._id}">
+                                                    <span>{{model?.name}}</span>
+                                                </li>
+                                                }
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    }
+
+                                    <div class="gi-pro-variation mb-[20px] mt-4 pb-[5px]">
+                                        @for(variant of productModelDetail?.variant; track variant._id) {
+                                        <div
+                                            class="gi-pro-variation-inner gi-pro-variation-size text-[16px] font-semibold text-[#4b5966] flex-col mb-[15px] flex">
+                                            <span
+                                                class="mb-[10px] text-[#202020] font-medium text-[15px] leading-[1.1] tracking-[0.04rem] uppercase font-Poppins block">{{variant?.variantName?.name}}</span>
+                                            <div class="gi-pro-variation-content">
+                                                <ul>
+                                                    @for(variantValue of variant?.variantValue; track variantValue.id)
+                                                    {
+                                                    <li class="h-[22px] font-normal transition-all duration-[0.3s] ease-in-out py-[5px] px-[10px] cursor-pointer flex items-center justify-center text-[12px] leading-[22px] border-[1px] border-solid border-[#eee] float-left rounded-[5px]"
+                                                        (click)="selectVariant(productModelDetail._id, variant?.variantName.id, variantValue.id)"
+                                                        [ngClass]="{'isSelected': selectedVariants[productModelDetail._id]?.[variant?.variantName.id]?.includes(variantValue.id)}">
+                                                        <span>{{variantValue?.value}}</span>
+                                                    </li>
+                                                    }
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        }
+                                    </div>
+
+                                    <div class="bg-[#f7f7f7] p-[15px] border-[1px] border-solid border-[#eee]">
+                                        <p class="m-0 p-0">Sample Price: ₹ <span>{{productModelDetail?.samplePrice}}
+                                            </span></p>
+                                    </div>
+
+                                    <div class="product-detail-actions d-flex flex-wrap pt-3">
+                                        <div class="cart-button mb-3 d-flex">
+                                            <button type="button" (click)="addToCart()"
+                                                class="btn btn-primary self-center! gi-btn-1 flex h-[40px] leading-[50px] text-center text-[14px] m-[5px] py-[10px] px-[15px] uppercase justify-center bg-[#4b5966] text-[#fff] transition-all duration-[0.3s] ease-in-out relative rounded-[5px] items-center min-w-[160px] font-semibold tracking-[0.02rem] border-[0] hover:bg-[#10b2e3] hover:text-[#fff]">
+                                                Start Order
+                                            </button>
+                                            <button class="btn btn-outline-mode border ms-3"
+                                                [ngClass]="{'isSelected': productDetails.isWishlisted}">
+                                                <i class="bi bi-heart"
+                                                    (click)="_globalService.addToWishlist(productDetails.id)"></i>
+                                            </button>
+                                            <button class="btn btn-outline-mode border ms-3">
+                                                <i class="bi bi-eye"
+                                                    (click)="_globalService.openQuickView(productDetails)"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <mat-tab-group class="mt-[50px]">
+                    <mat-tab label="Detail" class="custom-tab">
+                        @if(productDetails?.description){
+                        <div class="p-4 border-[1px] border-solid border-[#eee]"
+                            [innerHTML]="replceString(productDetails?.description)"></div>
+                        } @else {
+                        <div class="text-center">
+                            No description available
+                        </div>
+                        }
+                    </mat-tab>
+
+                    <mat-tab label="Vendor" class="custom-tab">
+                        <div class="tab-single-pane p-4 border-[1px] border-solid border-[#eee]">
+                            <div class="gi-single-pro-tab-moreinfo">
+                                <div class="gi-product-vendor">
+                                    <div class="gi-vendor-info mb-[15px] flex flex-row">
+                                        <span>
+                                            <img class="w-[80px] mr-[15px] border-[1px] border-solid border-[#eee]"
+                                                [attr.src]="(productDetails?.sellerId?.businessInfo?.logo | secureImage: 'assets/img/user/dummy-user.jpg') | async"
+                                                alt="Product Image" />
+                                        </span>
+                                        <div>
+                                            <h5 class="text-[15px] font-semibold text-[#4b5966] cursor-pointer"
+                                                (click)="goTo('/seller/'+productDetails.sellerId.id)">
+                                                {{productDetails?.sellerId?.name}}</h5>
+                                            <p>
+                                                {{productDetails?.sellerId?.businessInfo?.tradeName}}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="gi-detail">
+                                        <ul class="mb-[15px] pl-[24px]">
+                                            <li
+                                                class="mb-[4px] text-[15px] list-disc text-[#777] max-[575px]:mb-[10px]">
+                                                <span
+                                                    class="mr-[25px] min-w-[150px] text-[15px] text-[#4b5966] inline-block font-medium tracking-[0.02rem] max-[575px]:w-full">Phone
+                                                    No. :</span> {{productDetails?.sellerId?.phoneNo}}
+                                            </li>
+                                            <li
+                                                class="mb-[4px] text-[15px] list-disc text-[#777] max-[575px]:mb-[10px]">
+                                                <span
+                                                    class="mr-[25px] min-w-[150px] text-[15px] text-[#4b5966] inline-block font-medium tracking-[0.02rem] max-[575px]:w-full">Email.
+                                                    :</span> {{productDetails?.sellerId?.email}}
+                                            </li>
+                                            <li
+                                                class="mb-[4px] text-[15px] list-disc text-[#777] max-[575px]:mb-[10px]">
+                                                <span
+                                                    class="mr-[25px] min-w-[150px] text-[15px] text-[#4b5966] inline-block font-medium tracking-[0.02rem] max-[575px]:w-full">Address.
+                                                    :</span>
+                                                {{productDetails?.sellerId?.address?.address1}},
+                                                {{productDetails?.sellerId?.address?.address2}},
+                                                {{productDetails?.sellerId?.address?.country?.name}},
+                                                {{productDetails?.sellerId?.address?.state?.name}},
+                                                {{productDetails?.sellerId?.address?.city?.name}},
+                                                {{productDetails?.sellerId?.address?.pinCode}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-tab>
+                    <mat-tab label="Review" class="custom-tab">
+                        <div class="tab-single-pane p-4 border-[1px] border-solid border-[#eee]">
+                            <div class="w-full">
+                                @for(review of reviewList; track $index){
+                                <div class="gi-t-review-wrapper mt-[10px]">
+                                    <div
+                                        class="gi-t-review-item flex mb-[25px] pb-[25px] border-b-[1px] border-solid border-[#eee]">
+                                        <div class="gi-t-review-avtar basis-[50px] grow-[0] shrink-[0] mr-[15px]">
+                                            <img src="assets/img/user/1.jpg" alt="user"
+                                                class="max-w-full rounded-[5px]">
+                                        </div>
+                                        <div class="gi-t-review-content">
+                                            <div class="gi-t-review-top flex flex-col mb-[10px]">
+                                                <div
+                                                    class="gi-t-review-name text-[15px] m-[0] leading-[1.5] block text-[#4b5966]">
+                                                    {{review?.userId?.name}}
+                                                </div>
+                                                <div class="gi-t-review-rating mt-[5px]">
+                                                    <bar-rating class="star" effect [max]="5" [rate]="review?.rating">
+                                                    </bar-rating>
+                                                </div>
+                                            </div>
+                                            <div class="gi-t-review-bottom">
+                                                <p class="w-full text-[14px] text-[#777] font-normal">
+                                                    {{review?.comment}}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                }
+                                <div class="gi-ratting-content w-full">
+                                    <h3
+                                        class="mb-[10px] text-[20px] font-semibold leading-[1] font-Poppins text-[#4b5966] tracking-[0.01rem]">
+                                        Add a Review</h3>
+                                    <div class="gi-ratting-form">
+                                        <form [formGroup]="reviewForm" (ngSubmit)="onSubmit()">
+                                            <div class="gi-ratting-star flex mt-[5px] mb-[25px] items-center">
+                                                <span class="mr-[18px] text-[16px] text-[#777] tracking-[0.02rem]">Your
+                                                    rating:</span>
+                                                <div class="gi-t-review-rating">
+                                                    <bar-rating class="star" effect [max]="5" formControlName="rating">
+                                                    </bar-rating>
+                                                </div>
+                                            </div>
+                                            <div class="gi-ratting-input form-submit">
+                                                <textarea name="your-commemt" placeholder="Enter Your Comment"
+                                                    formControlName="comment"
+                                                    class="bg-transparent border-[1px] border-solid border-[#eee] text-[#4b5966] h-[150px] p-[20px] mb-[15px] w-full outline-[0] text-[14px] rounded-[5px]"></textarea>
+                                                <button type="submit"
+                                                    class="gi-btn-2 transition-all duration-[0.3s] ease-in-out py-[10px] px-[15px] text-[14px] font-medium bg-[#10b2e3] text-[#fff] text-center rounded-[5px] hover:bg-[#4b5966] hover:text-[#fff]"
+                                                    value="Submit">Submit</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-tab>
+                </mat-tab-group>
+                <!-- product details description area end -->
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Single Product -->
+
+<!--  related product -->
+<section class="gi-deal-section padding-tb-40 wow fadeInUp" data-wow-duration="2s">
+    <div class="container">
+        <div class="row overflow-hidden m-b-minus-24px">
+            <div class="gi-deal-section col-lg-12">
+                <div class="gi-products">
+                    <div class="section-title-2 w-full mb-[20px] pb-[20px] flex flex-col justify-center items-center"
+                        data-aos="fade-up" data-aos-duration="2000" data-aos-delay="200">
+                        <h2
+                            class="gi-title mb-[0] font-manrope text-[26px] font-semibold text-[#4b5966] relative inline p-[0] capitalize leading-[1]">
+                            Related <span class="text-[#10b2e3]">Products</span></h2>
+                        <p class="max-w-[400px] mt-[15px] text-[14px] text-[#777] text-center leading-[23px]">Browse The
+                            Collection of Top Products</p>
+                    </div>
+                    <div class="gi-deal-block m-minus-lr-12" data-aos="fade-up" data-aos-duration="2000"
+                        data-aos-delay="300">
+                        <swiper-container slides-per-view="auto" loop="true"
+                            class="deal-slick-carousel gi-product-slider">
+                            @for (product of relatedProduct; track product.id) {
+                            <swiper-slide class="gi-product-content col-md-3 col-sm-12">
+                                <div class="gi-product-inner" (click)="goTo('/shop/product-details/'+ product?.id)">
+                                    <div class="gi-pro-image-outer">
+                                        <div class="gi-pro-image">
+                                            <a class="image">
+                                                <span class="label veg">
+                                                    <span class="dot"></span>
+                                                </span>
+                                                <img [attr.src]="(product.image[0] | secureImage: 'assets/img/product-images/default-img.png') | async"
+                                                    alt="" class="main-image" />
+                                            </a>
+                                            <span class="flags">
+                                                <span class="sale">Sale</span>
+                                            </span>
+                                            <div class="gi-pro-actions">
+                                                <a class="gi-btn-group wishlist"
+                                                    (click)="_globalService.addToWishlist(product.id)" title="Wishlist"
+                                                    [ngClass]="{'isSelected': product.isWishlisted}">
+                                                    <i class="bi bi-heart"></i>
+                                                </a>
+                                                <a class="gi-btn-group quickview"
+                                                    (click)="_globalService.openQuickView(product)" title="Quick view">
+                                                    <i class="bi bi-eye"></i>
+                                                </a>
+                                                <!-- <a title="Add To Cart" class="gi-btn-group add-to-cart"
+                                                    (click)="_globalService.addToCart(product)"
+                                                    [ngClass]="{'isSelected': product.isAddToCart}">
+                                                    <i class="bi bi-bag"></i>
+                                                </a> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="gi-pro-content">
+                                        <a>
+                                            <h6 class="gi-pro-stitle">{{product?.subCategory?.name}}</h6>
+                                        </a>
+                                        <h5 class="gi-pro-title">
+                                            <a>
+                                                {{product?.name}}
+                                            </a>
+                                        </h5>
+                                        <div class="gi-pro-rat-price">
+                                            <span class="gi-pro-rating">
+                                                <bar-rating class="star" effect [max]="5" [rate]="product?.ratings || 4"
+                                                    [readonly]="true">
+                                                </bar-rating>
+                                            </span>
+                                            <span
+                                                class="gi-price text-[18px] flex items-center justify-left text-[#4b5966] tracking-[0.4px]">
+                                                <span
+                                                    class="new-price text-[#4b5966] font-bold text-[14px] mr-[7px] tracking-[0.02rem]">₹
+                                                    {{product?.priceRange}}
+                                                </span>
+                                            </span>
+                                            <span class="text-[#999] text-[13px] capitalize">
+                                                min. order: {{product?.minOrder}} piece
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </swiper-slide>
+                            } @empty {
+                            <li>There are no items.</li>
+                            }
+
+                        </swiper-container>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--  related product End -->

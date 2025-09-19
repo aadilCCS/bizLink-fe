@@ -1,0 +1,492 @@
+<header class="gi-header">
+    <!-- Header Top Start -->
+    <div class="header-top">
+        <div class="container">
+            <div class="row align-itegi-center">
+                <!-- Header Top social Start -->
+                <div class="col text-left header-top-left d-lg-block">
+                    <div class="header-top-social">
+                        <ul class="mb-0">
+                            <li class="list-inline-item">
+                                <a><i class="bi bi-telephone"></i></a>+91 {{companyDetails?.companyNumber ?? '-'}}
+                            </li>
+                            <li class="list-inline-item">
+                                <a><i class="bi bi-whatsapp"></i></a>+91 {{companyDetails?.companyNumber ?? '-'}}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Header Top social End -->
+                <!-- Header Top Message Start -->
+                <div class="col text-center header-top-center">
+                    <div class="header-top-message">
+                        World's Fastest Online Shopping Destination
+                    </div>
+                </div>
+                <!-- Header Top Message End -->
+                <!-- Header Top Language Currency -->
+                <div class="col header-top-right d-none d-lg-block">
+                    <div class="header-top-right-inner d-flex justify-content-end">
+                        <a class="gi-help">Help?</a>
+                        <!-- <a class="gi-help">Track Order?</a> -->
+                        <!-- Language Start -->
+                        <!-- <div class="header-top-lan-curr header-top-lan dropdown">
+                            <button class="dropdown-toggle" data-bs-toggle="dropdown">English
+                                <i class="fi-rr-angle-small-down" aria-hidden="true"></i>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li class="active"><a class="dropdown-item">English</a></li>
+                                <li><a class="dropdown-item">Italiano</a></li>
+                            </ul>
+                        </div> -->
+                        <!-- Language End
+                        Currency Start -->
+                        <!-- <div class="header-top-lan-curr header-top-curr dropdown">
+                            <button class="dropdown-toggle" data-bs-toggle="dropdown">Dollar
+                                <i class="fi-rr-angle-small-down" aria-hidden="true"></i>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li class="active"><a class="dropdown-item">USD $</a></li>
+                                <li><a class="dropdown-item">EUR €</a></li>
+                            </ul>
+                        </div> -->
+                        <!-- Currency End -->
+                    </div>
+                </div>
+                <!-- Header Top Language Currency -->
+                <!-- Header Top responsive Action -->
+                <div class="col header-top-res d-lg-none">
+                    <div class="gi-header-buttons">
+                        <div class="right-icons">
+                            <!-- Header User Start -->
+                            <a class="gi-header-btn gi-header-user">
+                                <div class="header-icon"><i class="bi bi-person"></i></div>
+                            </a>
+                            <!-- Header User End -->
+                            <!-- Header Wishlist Start -->
+                            <a class="gi-header-btn gi-wish-toggle">
+                                <div class="header-icon"><i class="bi bi-heart"></i></div>
+                                <span class="gi-header-count gi-wishlist-count">3</span>
+                            </a>
+                            <!-- Header Wishlist End -->
+                            <!-- Header Cart Start -->
+                            <a class="gi-header-btn gi-cart-toggle">
+                                <div class="header-icon"><i class="bi bi-bag"></i>
+                                    <span class="main-label-note-new"></span>
+                                </div>
+                                <span class="gi-header-count gi-cart-count">3</span>
+                            </a>
+                            <!-- Header Cart End -->
+                            <!-- Header menu Start -->
+                            <a class="gi-header-btn gi-site-menu-icon d-lg-none">
+                                <i class="fi-rr-menu-burger"></i>
+                            </a>
+                            <!-- Header menu End -->
+                        </div>
+                    </div>
+                </div>
+                <!-- Header Top responsive Action -->
+            </div>
+        </div>
+    </div>
+    <!-- Header Top  End -->
+
+    <!-- Header Bottom  Start -->
+    <div class="gi-header-bottom d-lg-block">
+        <div class="container position-relative">
+            <div class="row">
+                <div class="gi-flex">
+                    <!-- Header Logo Start -->
+                    <div class="align-self-center gi-header-logo">
+                        <div class="header-logo">
+                            <a (click)="goTo('/home')">
+                                <!-- <img src="assets/img/logo/logo.png" alt="Site Logo"> -->
+                                <img [attr.src]=" companyDetails?.companyLogo | secureImage:'assets/img/logo/logo.png' | async"
+                                    style="width: 40px">
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Header Logo End -->
+                    <!-- Header Search Start -->
+                    <div class="align-self-center gi-header-search position-relative">
+                        <div class="header-search">
+                            <form class="gi-search-group-form" (submit)="onSearchSubmit()">
+                                <input class="form-control gi-search-bar" placeholder="Search Products..." type="text"
+                                    [(ngModel)]="searchQuery" name="searchQuery" (input)="onSearchInputChange()"
+                                    autocomplete="off" />
+                                <button class="search_submit" (click)="openVisualImageSearch()"><i
+                                        class="bi bi-camera"></i></button>
+                                <button class="search_submit" type="submit"><i class="bi bi-search"></i></button>
+                                @if(isSearchbar){
+                                <div class="searchBar">
+                                    @if(searchResults.length > 0){
+                                    <ul>
+                                        @for(result of searchResults; track result.id){
+                                        <li (click)="onSearchSubmit()"> {{result?.name}} </li>
+                                        }
+                                    </ul>
+                                    } @else {
+                                    <ng-template>
+                                        <p class="m-0 w-100">Product Not Found!</p>
+                                    </ng-template>
+                                    }
+                                </div>
+                                }
+                            </form>
+                        </div>
+
+                        <!-- Visual Image Search Modal -->
+                        @if(isVisualImageSearchOpen){
+                        <div class="visualImageSearchModalOverlay" (click)="closeVisualImageSearch()">
+                            <div class="visualImageSearchModal" (click)="$event.stopPropagation()">
+                                <div class="modalHeader">
+                                    <h5>Find product inspiration with Image Search</h5>
+                                    <button class="closeBtn" (click)="closeVisualImageSearch()">×</button>
+                                </div>
+                                <div class="modalBody">
+                                    <ngx-file-drop dropZoneClassName="dropZone" dropZoneLabel="Drop files here"
+                                        (onFileDrop)="dropped($event)">
+                                        <ng-template ngx-file-drop-content-tmp contentClassName="dropZoneContent"
+                                            let-openFileSelector="openFileSelector">
+                                            <div class="dropZoneContent">
+                                                <div class="uploadIcon">
+                                                    <i class="bi bi-cloud-arrow-up"></i>
+                                                </div>
+                                                <p class="p-0 m-0">Paste an image you copied with <kbd>Ctrl</kbd> +
+                                                    <kbd>V</kbd>
+                                                </p>
+                                                <p class="p-0 m-0">Drag and drop an image here or upload a file</p>
+                                                <button type="button" class="browseBtn"
+                                                    (click)="openFileSelector()">Upload</button>
+                                            </div>
+                                        </ng-template>
+                                    </ngx-file-drop>
+                                </div>
+                            </div>
+                        </div>
+                        }
+                    </div>
+
+                    <!-- Header Search End -->
+                    <!-- Header Button Start -->
+                    <div class="gi-header-action align-self-center">
+                        <div class="gi-header-buttons">
+                            <!-- Header User Start -->
+                            <div class="gi-acc-drop">
+                                <a class="gi-header-btn gi-header-user dropdown-toggle gi-user-toggle" title="Account">
+                                    <div class="header-icon">
+                                        <i class="bi bi-person"></i>
+                                    </div>
+                                    <div class="gi-btn-desc">
+                                        <span class="gi-btn-title">Account</span>
+                                        <span class="gi-btn-stitle">Login</span>
+                                    </div>
+                                </a>
+                                <ul class="gi-dropdown-menu">
+                                    <li class="border-b-1 border-gray-300">
+                                        <a class="dropdown-item">
+                                            Sign in as <br> <b>{{loggedinUser?.email}}</b>
+                                        </a>
+                                    </li>
+                                    @if(!loggedinUser){
+                                    <li (click)="goTo('register')"><a class="dropdown-item">Register</a></li>
+                                    <li (click)="goTo('sign-in')"><a class="dropdown-item">Sign In</a></li>
+                                    }
+                                    @if(loggedinUser){
+                                    <li (click)="goTo('profile')"><a class="dropdown-item">Profile</a></li>
+                                    <li (click)="Logout()"><a class="dropdown-item">Log Out</a></li>
+                                    }
+                                </ul>
+                            </div>
+                            <!-- Header User End -->
+                            <!-- Header wishlist Start -->
+                            <a class="gi-header-btn gi-wish-toggle" title="Wishlist" (click)="goTo('wishlist')">
+                                <div class="header-icon">
+                                    <i class="bi bi-heart"></i>
+                                </div>
+                                <div class="gi-btn-desc">
+                                    <span class="gi-btn-title">Wishlist</span>
+                                    <span class="gi-btn-stitle"><b class="gi-wishlist-count">{{HeaderCount.WishlistCount
+                                            ?? 0}}</b>-items</span>
+                                </div>
+                            </a>
+                            <!-- Header wishlist End -->
+                            <!-- Header Cart Start -->
+                            <a class="gi-header-btn gi-cart-toggle" title="Cart" (click)="goTo('cart')">
+                                <div class="header-icon">
+                                    <i class="bi bi-bag"></i>
+                                    <span class="main-label-note-new"></span>
+                                </div>
+                                <div class="gi-btn-desc">
+                                    <span class="gi-btn-title">Cart</span>
+                                    <span class="gi-btn-stitle">
+                                        <b class="gi-cart-count">{{HeaderCount.cartCount ?? 0}}</b>-items
+                                    </span>
+                                </div>
+                            </a>
+                            <!-- Header Cart End -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Header Button End -->
+
+    <!-- Header menu -->
+    <div class="gi-header-cat d-none d-lg-block">
+        <div class="container position-relative">
+            <div class="gi-nav-bar">
+
+                <div class="gi-category-icon-block">
+                    <div class="gi-category-menu">
+                        <div class="gi-category-toggle">
+                            <i class="fi fi-rr-apps"></i>
+                            <span class="text">All Categories</span>
+                            <i class="bi bi-chevron-right"></i>
+                        </div>
+                    </div>
+                    <div class="gi-cat-dropdown" style="width: 50%">
+                        <div class="gi-cat-block">
+                            <div class="gi-cat-tab">
+                                <div class="gi-tab-list nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist"
+                                    aria-orientation="vertical">
+                                    <button *ngFor="let category of categoryList; let i = index" class="nav-link"
+                                        [class.active]="i === 0" [id]="'v-pills-' + i + '-tab'" data-bs-toggle="pill"
+                                        [attr.data-bs-target]="'#v-pills-' + i" type="button" role="tab"
+                                        [attr.aria-controls]="'v-pills-' + i"
+                                        [attr.aria-selected]="i === 0 ? 'true' : 'false'">
+                                        <i class="fi-rr-cupcake"></i>{{ category.category }}
+                                    </button>
+                                </div>
+                                <div class="tab-content" id="v-pills-tabContent">
+                                    <div *ngFor="let category of categoryList; let i = index" class="tab-pane fade"
+                                        [class.show]="i === 0" [class.active]="i === 0" [id]="'v-pills-' + i"
+                                        role="tabpanel" [attr.aria-labelledby]="'v-pills-' + i + '-tab'">
+                                        <div class="tab-list row">
+                                            <div class="col">
+                                                <h6 class="gi-col-title">{{ category.category }}</h6>
+                                                <ul class="cat-list">
+                                                    <li *ngFor="let subCat of category.subCategory">
+                                                        <a (click)="goTo('/shop/' + subCat?.id)">{{ subCat?.name }}</a>
+                                                    </li>
+                                                    <li
+                                                        *ngIf="!category.subCategory || category.subCategory.length === 0">
+                                                        There is no sub categories available.
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Menu Start -->
+                <div id="gi-main-menu-desk" class="d-none d-lg-block sticky-nav">
+                    <div class="nav-desk">
+                        <div class="row">
+                            <div class="col-md-12 align-self-center">
+                                <div class="gi-main-menu">
+                                    <ul>
+                                        <li class="dropdown drop-list">
+                                            <a class="dropdown-arrow" routerLink="/">Home</a>
+                                        </li>
+                                        <!-- <li class="dropdown drop-list position-static">
+                                            <a class="dropdown-arrow">Categories<i class="bi bi-chevron-right"></i></a>
+                                            <ul class="mega-menu d-block">
+                                                @for (category of categoryList; track category.id) {
+                                                <li class="d-flex">
+                                                    <span class="bg"></span>
+                                                    <ul class="d-block mega-block">
+                                                        <li class="menu_title">
+                                                            <a>{{category.category}}</a>
+                                                        </li>
+
+                                                        @for(subCat of category.subCategory; track subCat.id) {
+                                                        <li (click)="goTo('/shop/'+ subCat?.id)">
+                                                            <a>{{subCat?.name}}</a>
+                                                        </li>
+                                                        } @empty {
+                                                        <li>There is no sub categories available.</li>
+                                                        }
+                                                    </ul>
+                                                </li>
+                                                }
+                                            </ul>
+                                        </li> -->
+
+                                        <li class="dropdown drop-list position-static">
+                                            <a href="javascript:void(0)" class="dropdown-arrow">Categories<i
+                                                    class="fi-rr-angle-small-right"></i></a>
+                                            <ul class="mega-menu d-block">
+                                                <li class="d-flex">
+                                                    <span class="bg"></span>
+                                                    <ul class="d-block mega-block"
+                                                        *ngFor="let category of categoryList; let i = index">
+                                                        <li class="menu_title"><a
+                                                                href="javascript:void(0)">{{category.category}}</a>
+                                                        </li>
+                                                        <li *ngFor="let subCat of category.subCategory">
+                                                            <a (click)="goTo('/shop/' + subCat?.id)">{{ subCat?.name
+                                                                }}</a>
+                                                        </li>
+                                                        <li
+                                                            *ngIf="!category.subCategory || category.subCategory.length === 0">
+                                                            There is no sub categories available.
+                                                        </li>
+
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="dropdown drop-list">
+                                            <a class="dropdown-arrow" (click)="goTo('shop')">Products</a>
+                                        </li>
+                                        <!-- <li class="dropdown drop-list">
+                                            <a class="dropdown-arrow">Blog</a>
+                                        </li> -->
+                                        <!-- <li class="non-drop">
+                                            <a><i class="fi-rr-badge-percent"></i>Offers</a>
+                                        </li> -->
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Main Menu End -->
+            </div>
+        </div>
+    </div>
+    <!-- Header menu End -->
+
+    <!-- Mobile Menu sidebar Start -->
+    <div class="gi-mobile-menu-overlay"></div>
+    <div id="gi-mobile-menu" class="gi-mobile-menu">
+        <div class="gi-menu-title">
+            <span class="menu_title">My Menu</span>
+            <button class="gi-close-menu">×</button>
+        </div>
+        <div class="gi-menu-inner">
+            <div class="gi-menu-content">
+                <ul>
+                    <li class="dropdown drop-list">
+                        <a class="dropdown-arrow">Home</a>
+                        <ul class="sub-menu">
+                            <li><a>Grocery</a></li>
+                            <li><a>Fashion</a></li>
+                            <li><a>Fashion 2</a></li>
+                        </ul>
+                    </li>
+                    <li><a>Categories</a>
+                        <ul class="sub-menu">
+                            <li>
+                                <a>Classic Variation</a>
+                                <ul class="sub-menu">
+                                    <li><a>Left sidebar 3 column</a></li>
+                                    <li><a>Left sidebar 4 column</a></li>
+                                    <li><a>Right sidebar 3 column</a></li>
+                                    <li><a>Right sidebar 4 column</a></li>
+                                    <li><a>Full width 4 column</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a>Classic Variation</a>
+                                <ul class="sub-menu">
+                                    <li><a>Banner left sidebar 3
+                                            column</a></li>
+                                    <li><a>Banner left sidebar 4
+                                            column</a></li>
+                                    <li><a>Banner right sidebar 3
+                                            column</a></li>
+                                    <li><a>Banner right sidebar 4
+                                            column</a></li>
+                                    <li><a>Banner Full width 4 column</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a>Columns Variation</a>
+                                <ul class="sub-menu">
+                                    <li><a>3 Columns full width</a></li>
+                                    <li><a>4 Columns full width</a></li>
+                                    <li><a>5 Columns full width</a></li>
+                                    <li><a>6 Columns full width</a></li>
+                                    <li><a>Banner 3 Columns</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a>List Variation</a>
+                                <ul class="sub-menu">
+                                    <li><a>Shop left sidebar</a></li>
+                                    <li><a>Shop right sidebar</a></li>
+                                    <li><a>Banner left sidebar</a></li>
+                                    <li><a>Banner right sidebar</a></li>
+                                    <li><a>Full width 2 columns</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a>Products</a>
+                        <ul class="sub-menu">
+                            <li>
+                                <a>Product page</a>
+                                <ul class="sub-menu">
+                                    <li><a>Product left sidebar</a></li>
+                                    <li><a>Product right sidebar</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a>Product accordion</a>
+                                <ul class="sub-menu">
+                                    <li><a>left sidebar</a></li>
+                                    <li><a>right sidebar</a></li>
+                                </ul>
+                            </li>
+                            <li><a>product full width</a></li>
+                            <li><a>accordion full width</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown"><a>Blog</a>
+                        <ul class="sub-menu">
+                            <li><a>Blog left sidebar</a></li>
+                            <li><a>Blog right sidebar</a></li>
+                            <li><a>Blog detail left sidebar</a></li>
+                            <li><a>Blog detail right sidebar</a></li>
+                            <li><a>Blog full width</a></li>
+                            <li><a>Blog detail full width</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown"><a>Pages</a>
+                        <ul class="sub-menu">
+                            <li><a>About Us</a></li>
+                            <li><a>Contact Us</a></li>
+                            <li><a>Cart</a></li>
+                            <li><a>Checkout</a></li>
+                            <li><a>Compare</a></li>
+                            <li><a>FAQ</a></li>
+                            <li><a>Login</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="header-res-lan-curr">
+                <!-- Social Start -->
+                <div class="header-res-social">
+                    <div class="header-top-social">
+                        <ul class="mb-0">
+                            <li class="list-inline-item"><a><i class="gicon gi-facebook"></i></a></li>
+                            <li class="list-inline-item"><a><i class="gicon gi-twitter"></i></a></li>
+                            <li class="list-inline-item"><a><i class="gicon gi-instagram"></i></a></li>
+                            <li class="list-inline-item"><a><i class="gicon gi-linkedin"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Social End -->
+            </div>
+        </div>
+    </div>
+    <!-- Mobile Menu sidebar End -->
+</header>

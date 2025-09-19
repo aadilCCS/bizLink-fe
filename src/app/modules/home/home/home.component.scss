@@ -1,0 +1,15 @@
+swiper-container {
+    --swiper-navigation-color: #000;
+    --swiper-navigation-size: 20px;
+    --swiper-pagination-bullet-inactive-color: #000;
+    --swiper-navigation-background: #000 !important;
+    --swiper-navigation-padding: 10px;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+    background: white;
+    margin-left: -11px;
+    padding-right: 10px;
+    padding-left: 12px;
+}

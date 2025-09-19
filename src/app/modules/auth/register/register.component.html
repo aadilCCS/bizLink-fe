@@ -1,0 +1,536 @@
+<!-- <section class="gi-register py-[40px] max-[767px]:py-[30px]">
+    <div
+        class="flex flex-wrap justify-between items-center mx-auto min-[1600px]:max-w-[1600px] min-[1400px]:max-w-[1320px] min-[1200px]:max-w-[1140px] min-[992px]:max-w-[960px] min-[768px]:max-w-[720px] min-[576px]:max-w-[540px]">
+        <div class="section-title-2 w-full mb-[20px] pb-[20px] flex flex-col justify-center items-center">
+            <img src="../../../../assets/img/logo/logo.png" alt="" class="h-[50px] w-[150px] p-[10px] mb-[30px]">
+            <h2
+                class="gi-title mb-[0] font-manrope text-[26px] font-semibold text-[#4b5966] relative inline p-[0] capitalize leading-[1]">
+                Register<span></span></h2>
+            <p class="max-w-[400px] mt-[15px] text-[14px] text-[#777] text-center leading-[23px]">Best place to buy and
+                sell digital products.</p>
+        </div>
+        <div class="flex flex-wrap w-full">
+            <div class="gi-register-wrapper max-w-[934px] my-[0] mx-auto px-[12px]">
+                <div
+                    class="gi-register-container border-[1px] border-solid border-[#eee] p-[30px] text-left bg-[#fff] rounded-[5px] max-[575px]:p-[15px]">
+                    <div class="gi-register-form">
+                        <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="flex flex-row flex-wrap mx-[-15px]">
+
+                            <span class="gi-register-wrap gi-register-half w-[50%] px-[15px] py-[8px]">
+                                <label
+                                    class="inline-block mb-[9px] text-[#4b5966] text-[15px] font-medium tracking-[0] leading-[1]">Name
+                                    <span class="text-red-500">*</span></label>
+                                <input type="text" name="name" placeholder="Enter name"
+                                    class="w-full bg-transparent border-[1px] border-solid border-[#eee] text-[#777] text-[14px] mb-[26px] px-[15px] outline-[0] rounded-[5px] h-[50px]"
+                                    formControlName="name">
+                                <div class="text-red-500"
+                                    *ngIf="userForm.get('name')?.invalid && (userForm.get('name')?.dirty || userForm.get('name')?.touched)">
+                                    <div *ngIf="userForm.get('name')?.errors?.['required']">
+                                        Name is required
+                                    </div>
+                                </div>
+                            </span>
+
+                            <span class="gi-register-wrap gi-register-half w-[50%] px-[15px] py-[8px]">
+                                <label
+                                    class="inline-block mb-[9px] text-[#4b5966] text-[15px] font-medium tracking-[0] leading-[1]">Phone
+                                    Number <span class="text-red-500">*</span></label>
+                                <input type="text" name="phoneNo" placeholder="Enter phone number"
+                                    class="w-full bg-transparent border-[1px] border-solid border-[#eee] text-[#777] text-[14px] mb-[26px] px-[15px] outline-[0] rounded-[5px] h-[50px]"
+                                    formControlName="phoneNo">
+                                <div class="text-red-500"
+                                    *ngIf="userForm.get('phoneNo')?.invalid && (userForm.get('phoneNo')?.dirty || userForm.get('phoneNo')?.touched)">
+                                    <div *ngIf="userForm.get('phoneNo')?.errors?.['required']">
+                                        Phone No is required
+                                    </div>
+                                </div>
+                            </span>
+
+                            <span class="gi-register-wrap gi-register-half w-[50%] px-[15px] py-[8px]">
+                                <label
+                                    class="inline-block mb-[9px] text-[#4b5966] text-[15px] font-medium tracking-[0] leading-[1]">Email
+                                    Address <span class="text-red-500">*</span> </label>
+                                <input type="email" name="email" placeholder="Enter  email address"
+                                    class="w-full bg-transparent border-[1px] border-solid border-[#eee] text-[#777] text-[14px] mb-[26px] px-[15px] outline-[0] rounded-[5px] h-[50px]"
+                                    formControlName="email">
+                                <div class="text-red-500"
+                                    *ngIf="userForm.get('email')?.invalid && (userForm.get('email')?.dirty || userForm.get('email')?.touched)">
+                                    <div *ngIf="userForm.get('email')?.errors?.['required']">
+                                        Email Address is required
+                                    </div>
+                                </div>
+                            </span>
+
+                            <span class="gi-register-wrap gi-register-half w-[50%] px-[15px] py-[8px]">
+                                <label
+                                    class="inline-block mb-[9px] text-[#4b5966] text-[15px] font-medium tracking-[0] leading-[1]">GST
+                                    No <span class="text-red-500">*</span></label>
+                                <input type="text" name="gstNo" placeholder="Enter GST No"
+                                    class="w-full bg-transparent border-[1px] border-solid border-[#eee] text-[#777] text-[14px] mb-[26px] px-[15px] outline-[0] rounded-[5px] h-[50px]"
+                                    formControlName="gstNo">
+                                <div class="text-red-500"
+                                    *ngIf="userForm.get('gstNo')?.invalid && (userForm.get('gstNo')?.dirty || userForm.get('gstNo')?.touched)">
+                                    <div *ngIf="userForm.get('gstNo')?.errors?.['required']">
+                                        GST No is required
+                                    </div>
+                                </div>
+                            </span>
+
+                            <span class="gi-register-wrap gi-register-half w-[50%] px-[15px] py-[8px] relative">
+                                <label
+                                    class="inline-block mb-[9px] text-[#4b5966] text-[15px] font-medium tracking-[0] leading-[1]">
+                                    Password <span class="text-red-500">*</span></label>
+                                <input type="password" name="password" placeholder="Enter password"
+                                    class="w-full bg-transparent border-[1px] border-solid border-[#eee] text-[#777] text-[14px] mb-[26px] px-[15px] outline-[0] rounded-[5px] h-[50px]"
+                                    #passwordField formControlName="password">
+                                <button mat-icon-button type="button" class="eye-btn"
+                                    (click)="passwordField.type === 'password' ? passwordField.type = 'text' : passwordField.type = 'password'"
+                                    matSuffix>
+                                    <i class="bi bi-eye" *ngIf="passwordField.type === 'text'"></i>
+                                    <i class="bi bi-eye-slash" *ngIf="passwordField.type === 'password'"></i>
+                                </button>
+
+                                <div class="text-red-500"
+                                    *ngIf="userForm.get('password')?.invalid && (userForm.get('password')?.dirty || userForm.get('password')?.touched)">
+                                    <div *ngIf="userForm.get('password')?.errors?.['required']">
+                                        Password is required
+                                    </div>
+                                </div>
+                            </span>
+
+                            <span class="gi-register-wrap gi-register-half w-[50%] px-[15px] py-[8px] relative">
+                                <label
+                                    class="inline-block mb-[9px] text-[#4b5966] text-[15px] font-medium tracking-[0] leading-[1]">Re-Enter
+                                    Password <span class="text-red-500">*</span></label>
+                                <input type="password" name="cPassword" placeholder="Enter re-enter password"
+                                    class="w-full bg-transparent border-[1px] border-solid border-[#eee] text-[#777] text-[14px] mb-[26px] px-[15px] outline-[0] rounded-[5px] h-[50px]"
+                                    #cPasswordField formControlName="confirmPassword">
+                                <button mat-icon-button type="button" class="eye-btn"
+                                    (click)="cPasswordField.type === 'password' ? cPasswordField.type = 'text' : cPasswordField.type = 'password'"
+                                    matSuffix>
+                                    <i class="bi bi-eye" *ngIf="cPasswordField.type === 'text'"></i>
+                                    <i class="bi bi-eye-slash" *ngIf="cPasswordField.type === 'password'"></i>
+                                </button>
+                                <div class="text-red-500"
+                                    *ngIf="userForm.get('confirmPassword')?.invalid && (userForm.get('confirmPassword')?.dirty || userForm.get('confirmPassword')?.touched)">
+                                    <div *ngIf="userForm.get('confirmPassword')?.errors?.['required']">
+                                        Confirm Password is required
+                                    </div>
+                                </div>
+                            </span>
+
+                            <span class="gi-register-wrap gi-register-half w-[50%] px-[15px] py-[8px]">
+                                <label
+                                    class="inline-block mb-[9px] text-[#4b5966] text-[15px] font-medium tracking-[0] leading-[1]">Role</label>
+                                <search-dropdown placeholder="Select Role" [dropdownType]="DROPDOWN_TYPE.SEARCH"
+                                    [fieldLabel]="'Role'" [options]="roleAccessControl" optionViewKey="role"
+                                    [outputPattern]="['id']" formControlName="role">
+                                </search-dropdown>
+                                <div class="text-red-500"
+                                    *ngIf="userForm.get('role')?.invalid && (userForm.get('role')?.dirty || userForm.get('role')?.touched)">
+                                    <div *ngIf="userForm.get('role')?.errors?.['required']">
+                                        Role is required
+                                    </div>
+                                </div>
+                            </span>
+
+                            <span class="gi-register-wrap gi-register-half w-[100%] px-[15px] my-[10px]">
+                                <h5
+                                    class="gi-title mb-[0] font-manrope text-[26px] font-semibold text-[#4b5966] relative inline p-[0] capitalize leading-[1]">
+                                    Business Information<span></span></h5>
+                                <div class="md:flex w-full border rounded p-4 rounded-t-none"
+                                    formGroupName="businessInfo">
+                                    <div class="md:w-3/12 w-full md:pr-5">
+                                        <div class="flex justify-between cursor-pointer">
+                                            <mat-label class="font-medium">Logo</mat-label>
+                                            <i *ngIf="currentUser?.businessInfo?.logo"
+                                                (click)="removeLogo(currentUser?.businessInfo?.logo)"
+                                                class="bi bi-x-lg"></i>
+                                        </div>
+                                        <p style="font-size: 12px; line-height: 12px; margin: 0;padding: 0;">
+                                            (width : 177px, height : 35px)</p>
+                                        <div
+                                            class="border rounded h-[138px] flex items-center justify-center mt-1 mb-3 p-0.5 cursor-pointer">
+                                            <img [attr.src]="currentUser?.businessInfo?.logo | secureImage:'../../../../assets/img/icons/add_photo.svg' | async"
+                                                alt="logo-img" (dblclick)="fileUpload.click()"
+                                                [ngClass]="{'rounded w-full max-h-full' : currentUser?.businessInfo?.logo }">
+                                            <input class="file-btn" autocomplete="off" style="display: none;"
+                                                type="file" #fileUpload (change)="onLogoChange($event)"
+                                                accept="image/*" />
+                                        </div>
+                                    </div>
+                                    <div class="md:w-9/12 w-full md:pr-5">
+                                        <span class="gi-register-wrap gi-register-half w-[50%] px-[15px] py-[8px]">
+                                            <label
+                                                class="inline-block mb-[9px] text-[#4b5966] text-[15px] font-medium tracking-[0] leading-[1]">Name</label>
+                                            <input type="email" name="email" placeholder="Enter Business Name"
+                                                class="w-full bg-transparent border-[1px] border-solid border-[#eee] text-[#777] text-[14px] mb-[26px] px-[15px] outline-[0] rounded-[5px] h-[50px]"
+                                                formControlName="name">
+                                        </span>
+
+                                        <span class="gi-register-wrap gi-register-half w-[50%] px-[15px] py-[8px]">
+                                            <label
+                                                class="inline-block mb-[9px] text-[#4b5966] text-[15px] font-medium tracking-[0] leading-[1]">Trade
+                                                Name</label>
+                                            <input type="email" name="email" placeholder="Enter Trade Name"
+                                                class="w-full bg-transparent border-[1px] border-solid border-[#eee] text-[#777] text-[14px] mb-[26px] px-[15px] outline-[0] rounded-[5px] h-[50px]"
+                                                formControlName="tradeName">
+                                        </span>
+                                    </div>
+                                </div>
+                            </span>
+
+                            <ng-container formGroupName="address">
+
+                                <span class="gi-register-wrap gi-register-half w-[50%] px-[15px] py-[8px]">
+                                    <label
+                                        class="inline-block mb-[9px] text-[#4b5966] text-[15px] font-medium tracking-[0] leading-[1]">Address
+                                        Line 1</label>
+                                    <input type="text" name="address1" placeholder="Enter Address 1"
+                                        class="w-full bg-transparent border-[1px] border-solid border-[#eee] text-[#777] text-[14px] mb-[26px] px-[15px] outline-[0] rounded-[5px] h-[50px]"
+                                        formControlName="address1">
+                                </span>
+
+                                <span class="gi-register-wrap gi-register-half w-[50%] px-[15px] py-[8px]">
+                                    <label
+                                        class="inline-block mb-[9px] text-[#4b5966] text-[15px] font-medium tracking-[0] leading-[1]">Address
+                                        Line 2</label>
+                                    <input type="text" name="address2" placeholder="Enter Address 1"
+                                        class="w-full bg-transparent border-[1px] border-solid border-[#eee] text-[#777] text-[14px] mb-[26px] px-[15px] outline-[0] rounded-[5px] h-[50px]"
+                                        formControlName="address2">
+                                </span>
+
+                                <span class="gi-register-wrap gi-register-half w-[50%] px-[15px] py-[8px]">
+                                    <label
+                                        class="inline-block mb-[9px] text-[#4b5966] text-[15px] font-medium tracking-[0] leading-[1]">Pin
+                                        Code</label>
+                                    <input type="text" name="pinCode" placeholder="Enter Pin Code"
+                                        class="w-full bg-transparent border-[1px] border-solid border-[#eee] text-[#777] text-[14px] mb-[26px] px-[15px] outline-[0] rounded-[5px] h-[50px]"
+                                        formControlName="pinCode">
+                                </span>
+
+                                <span class="gi-register-wrap gi-register-half w-[50%] px-[15px] py-[8px]">
+                                    <label
+                                        class="inline-block mb-[9px] text-[#4b5966] text-[15px] font-medium tracking-[0] leading-[1]">Country</label>
+                                    <search-dropdown placeholder="Select Country" [dropdownType]="DROPDOWN_TYPE.SEARCH"
+                                        (changeEvent)="selectedCountry($event)" [options]="countryList"
+                                        [fieldLabel]="'Country'" optionViewKey="name" [outputPattern]="['id']"
+                                        formControlName="country">
+                                    </search-dropdown>
+                                </span>
+
+                                <span class="gi-register-wrap gi-register-half w-[50%] px-[15px] py-[8px]">
+                                    <label
+                                        class="inline-block mb-[9px] text-[#4b5966] text-[15px] font-medium tracking-[0] leading-[1]">State</label>
+                                    <search-dropdown placeholder="Select State" [dropdownType]="DROPDOWN_TYPE.SEARCH"
+                                        [fieldLabel]="'State'" (changeEvent)="selectedState($event)"
+                                        [options]="stateList" optionViewKey="name" [outputPattern]="['id']"
+                                        formControlName="state">
+                                    </search-dropdown>
+                                </span>
+
+                                <span class="gi-register-wrap gi-register-half w-[50%] px-[15px] py-[8px]">
+                                    <label
+                                        class="inline-block mb-[9px] text-[#4b5966] text-[15px] font-medium tracking-[0] leading-[1]">City</label>
+                                    <search-dropdown placeholder="Select City" [dropdownType]="DROPDOWN_TYPE.SEARCH"
+                                        [fieldLabel]="'City'" [options]="cityList" optionViewKey="name"
+                                        [outputPattern]="['id']" formControlName="city">
+                                    </search-dropdown>
+                                </span>
+
+                            </ng-container>
+
+                            <span
+                                class="gi-register-wrap gi-register-btn flex flex-row justify-between items-center w-full px-[15px] max-[767px]:flex-col ">
+                                <span class="text-[#777] text-[14px] tracking-[0.02rem]">
+                                    Already have an account?
+                                    <a (click)="goTo('/sign-in')" class="ml-[7px] text-[#10b2e3]! text-[14px]">
+                                        Login
+                                    </a>
+                                </span>
+                                <button type="submit"
+                                    class="gi-btn-1 py-[8px] px-[15px] bg-[#4b5966] text-[#fff] border-[0] transition-all duration-[0.3s] ease-in-out overflow-hidden text-center text-[14px] font-semibold relative rounded-[5px] max-[767px]:mt-[15px] hover:bg-[#10b2e3]">
+                                    Register
+                                </button>
+                            </span>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section> -->
+
+
+
+
+<div class="flex flex-col sm:flex-row items-center md:items-start sm:justify-center md:justify-start flex-auto min-w-0">
+
+    <div class="relative hidden md:flex flex-auto items-center justify-center w-1/2 h-full overflow-hidden bg-primary-800 dark:border-l"
+        style="background: url(/assets/img/hero-bg/top-banner-1.jpg);background-size: cover;background-position: top right;object-fit: contain;background-repeat: no-repeat;height: 100vh;">
+    </div>
+
+    <div
+        class="md:flex w-full justify-center items-center md:h-full md:w-1/2 py-5 px-4 sm:p-12 md:p-16 sm:rounded-2xl md:rounded-none sm:shadow md:shadow-none sm:bg-card">
+        <div class="w-full">
+            <div class="md:flex w-full justify-between">
+                <!-- Logo -->
+                <div class="w-32 pb-5">
+                    <img [attr.src]="companyLogo | secureImage:'/assets/img/logo/logo.png' | async" style="width: 50px;">
+                </div>
+
+                <p class="mt-3">bizLink Signup</p>
+            </div>
+
+            <!-- Title -->
+            <div class=" text-3xl font-extrabold tracking-tight leading-tight">Sign up</div>
+
+            <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="flex flex-row flex-wrap mx-[-15px] scrollForm">
+
+                <span class="gi-register-wrap gi-register-half w-[50%] px-[15px] py-[8px]">
+                    <label
+                        class="inline-block mb-[9px] text-[#4b5966] text-[15px] font-medium tracking-[0] leading-[1]">Name
+                        <span class="text-red-500">*</span></label>
+                    <input type="text" name="name" placeholder="Enter name"
+                        class="w-full bg-transparent border-[1px] border-solid border-[#eee] text-[#777] text-[14px] mb-[26px] px-[15px] outline-[0] rounded-[5px] h-[50px]"
+                        formControlName="name">
+                    <div class="text-red-500"
+                        *ngIf="userForm.get('name')?.invalid && (userForm.get('name')?.dirty || userForm.get('name')?.touched)">
+                        <div *ngIf="userForm.get('name')?.errors?.['required']">
+                            Name is required
+                        </div>
+                    </div>
+                </span>
+
+                <span class="gi-register-wrap gi-register-half w-[50%] px-[15px] py-[8px]">
+                    <label
+                        class="inline-block mb-[9px] text-[#4b5966] text-[15px] font-medium tracking-[0] leading-[1]">Phone
+                        Number <span class="text-red-500">*</span></label>
+                    <input type="text" name="phoneNo" placeholder="Enter phone number"
+                        class="w-full bg-transparent border-[1px] border-solid border-[#eee] text-[#777] text-[14px] mb-[26px] px-[15px] outline-[0] rounded-[5px] h-[50px]"
+                        formControlName="phoneNo">
+                    <div class="text-red-500"
+                        *ngIf="userForm.get('phoneNo')?.invalid && (userForm.get('phoneNo')?.dirty || userForm.get('phoneNo')?.touched)">
+                        <div *ngIf="userForm.get('phoneNo')?.errors?.['required']">
+                            Phone No is required
+                        </div>
+                    </div>
+                </span>
+
+                <span class="gi-register-wrap gi-register-half w-[50%] px-[15px] py-[8px]">
+                    <label
+                        class="inline-block mb-[9px] text-[#4b5966] text-[15px] font-medium tracking-[0] leading-[1]">Email
+                        Address <span class="text-red-500">*</span> </label>
+                    <input type="email" name="email" placeholder="Enter  email address"
+                        class="w-full bg-transparent border-[1px] border-solid border-[#eee] text-[#777] text-[14px] mb-[26px] px-[15px] outline-[0] rounded-[5px] h-[50px]"
+                        formControlName="email">
+                    <div class="text-red-500"
+                        *ngIf="userForm.get('email')?.invalid && (userForm.get('email')?.dirty || userForm.get('email')?.touched)">
+                        <div *ngIf="userForm.get('email')?.errors?.['required']">
+                            Email Address is required
+                        </div>
+                    </div>
+                </span>
+
+                <span class="gi-register-wrap gi-register-half w-[50%] px-[15px] py-[8px]">
+                    <label
+                        class="inline-block mb-[9px] text-[#4b5966] text-[15px] font-medium tracking-[0] leading-[1]">GST
+                        No <span class="text-red-500">*</span></label>
+                    <input type="text" name="gstNo" placeholder="Enter GST No"
+                        class="w-full bg-transparent border-[1px] border-solid border-[#eee] text-[#777] text-[14px] mb-[26px] px-[15px] outline-[0] rounded-[5px] h-[50px]"
+                        formControlName="gstNo">
+                    <div class="text-red-500"
+                        *ngIf="userForm.get('gstNo')?.invalid && (userForm.get('gstNo')?.dirty || userForm.get('gstNo')?.touched)">
+                        <div *ngIf="userForm.get('gstNo')?.errors?.['required']">
+                            GST No is required
+                        </div>
+                    </div>
+                </span>
+
+                <span class="gi-register-wrap gi-register-half w-[50%] px-[15px] py-[8px] relative">
+                    <label
+                        class="inline-block mb-[9px] text-[#4b5966] text-[15px] font-medium tracking-[0] leading-[1]">
+                        Password <span class="text-red-500">*</span></label>
+                    <input type="password" name="password" placeholder="Enter password"
+                        class="w-full bg-transparent border-[1px] border-solid border-[#eee] text-[#777] text-[14px] mb-[26px] px-[15px] outline-[0] rounded-[5px] h-[50px]"
+                        #passwordField formControlName="password">
+                    <button mat-icon-button type="button" class="eye-btn"
+                        (click)="passwordField.type === 'password' ? passwordField.type = 'text' : passwordField.type = 'password'"
+                        matSuffix>
+                        <i class="bi bi-eye" *ngIf="passwordField.type === 'text'"></i>
+                        <i class="bi bi-eye-slash" *ngIf="passwordField.type === 'password'"></i>
+                    </button>
+
+                    <div class="text-red-500"
+                        *ngIf="userForm.get('password')?.invalid && (userForm.get('password')?.dirty || userForm.get('password')?.touched)">
+                        <div *ngIf="userForm.get('password')?.errors?.['required']">
+                            Password is required
+                        </div>
+                    </div>
+                </span>
+
+                <span class="gi-register-wrap gi-register-half w-[50%] px-[15px] py-[8px] relative">
+                    <label
+                        class="inline-block mb-[9px] text-[#4b5966] text-[15px] font-medium tracking-[0] leading-[1]">Re-Enter
+                        Password <span class="text-red-500">*</span></label>
+                    <input type="password" name="cPassword" placeholder="Enter re-enter password"
+                        class="w-full bg-transparent border-[1px] border-solid border-[#eee] text-[#777] text-[14px] mb-[26px] px-[15px] outline-[0] rounded-[5px] h-[50px]"
+                        #cPasswordField formControlName="confirmPassword">
+                    <button mat-icon-button type="button" class="eye-btn"
+                        (click)="cPasswordField.type === 'password' ? cPasswordField.type = 'text' : cPasswordField.type = 'password'"
+                        matSuffix>
+                        <i class="bi bi-eye" *ngIf="cPasswordField.type === 'text'"></i>
+                        <i class="bi bi-eye-slash" *ngIf="cPasswordField.type === 'password'"></i>
+                    </button>
+                    <div class="text-red-500"
+                        *ngIf="userForm.get('confirmPassword')?.invalid && (userForm.get('confirmPassword')?.dirty || userForm.get('confirmPassword')?.touched)">
+                        <div *ngIf="userForm.get('confirmPassword')?.errors?.['required']">
+                            Confirm Password is required
+                        </div>
+                    </div>
+                </span>
+
+                <span class="gi-register-wrap gi-register-half w-[50%] px-[15px] py-[8px]">
+                    <label
+                        class="inline-block mb-[9px] text-[#4b5966] text-[15px] font-medium tracking-[0] leading-[1]">Role</label>
+                    <search-dropdown placeholder="Select Role" [dropdownType]="DROPDOWN_TYPE.SEARCH"
+                        [fieldLabel]="'Role'" [options]="roleAccessControl" optionViewKey="role" (changeEvent)="onRoleChange($event)"
+                        [outputPattern]="['id']" formControlName="role">
+                    </search-dropdown>
+                    <div class="text-red-500"
+                        *ngIf="userForm.get('role')?.invalid && (userForm.get('role')?.dirty || userForm.get('role')?.touched)">
+                        <div *ngIf="userForm.get('role')?.errors?.['required']">
+                            Role is required
+                        </div>
+                    </div>
+                </span>
+
+                @if(isSeller){
+                    <span class="gi-register-wrap gi-register-half w-[50%] px-[15px] py-[8px]">
+                        <label
+                            class="inline-block mb-[9px] text-[#4b5966] text-[15px] font-medium tracking-[0] leading-[1]">Package</label>
+                        <search-dropdown placeholder="Select Package" [dropdownType]="DROPDOWN_TYPE.SEARCH"
+                            [fieldLabel]="'Package'" [options]="packageList" optionViewKey="name"
+                            [outputPattern]="['id']" formControlName="package">
+                        </search-dropdown>
+                    </span>
+                }
+
+                <span class="gi-register-wrap gi-register-half w-[100%] px-[15px] my-[10px]">
+                    <h5
+                        class="gi-title mb-[0] font-manrope text-[26px] font-semibold text-[#4b5966] relative inline p-[0] capitalize leading-[1]">
+                        Business Information<span></span></h5>
+                    <div class="md:flex w-full border rounded p-4 rounded-t-none" formGroupName="businessInfo">
+                        <div class="md:w-3/12 w-full md:pr-5">
+                            <div class="flex justify-between cursor-pointer">
+                                <mat-label class="font-medium">Logo</mat-label>
+                                <i *ngIf="currentUser?.businessInfo?.logo"
+                                    (click)="removeLogo(currentUser?.businessInfo?.logo)" class="bi bi-x-lg"></i>
+                            </div>
+                            <p style="font-size: 12px; line-height: 12px; margin: 0;padding: 0;">
+                                (width : 177px, height : 35px)</p>
+                            <div
+                                class="border rounded h-[138px] flex items-center justify-center mt-1 mb-3 p-0.5 cursor-pointer">
+                                <img [attr.src]="currentUser?.businessInfo?.logo | secureImage:'../../../../assets/img/icons/add_photo.svg' | async"
+                                    alt="logo-img" (dblclick)="fileUpload.click()"
+                                    [ngClass]="{'rounded w-full max-h-full' : currentUser?.businessInfo?.logo }">
+                                <input class="file-btn" autocomplete="off" style="display: none;" type="file"
+                                    #fileUpload (change)="onLogoChange($event)" accept="image/*" />
+                            </div>
+                        </div>
+                        <div class="md:w-9/12 w-full md:pr-5">
+                            <span class="gi-register-wrap gi-register-half w-[50%] px-[15px] py-[8px]">
+                                <label
+                                    class="inline-block mb-[9px] text-[#4b5966] text-[15px] font-medium tracking-[0] leading-[1]">Name</label>
+                                <input type="email" name="email" placeholder="Enter Business Name"
+                                    class="w-full bg-transparent border-[1px] border-solid border-[#eee] text-[#777] text-[14px] mb-[26px] px-[15px] outline-[0] rounded-[5px] h-[50px]"
+                                    formControlName="name">
+                            </span>
+
+                            <span class="gi-register-wrap gi-register-half w-[50%] px-[15px] py-[8px]">
+                                <label
+                                    class="inline-block mb-[9px] text-[#4b5966] text-[15px] font-medium tracking-[0] leading-[1]">Trade
+                                    Name</label>
+                                <input type="email" name="email" placeholder="Enter Trade Name"
+                                    class="w-full bg-transparent border-[1px] border-solid border-[#eee] text-[#777] text-[14px] mb-[26px] px-[15px] outline-[0] rounded-[5px] h-[50px]"
+                                    formControlName="tradeName">
+                            </span>
+                        </div>
+                    </div>
+                </span>
+
+                <ng-container formGroupName="address">
+
+                    <span class="gi-register-wrap gi-register-half w-[50%] px-[15px] py-[8px]">
+                        <label
+                            class="inline-block mb-[9px] text-[#4b5966] text-[15px] font-medium tracking-[0] leading-[1]">Address
+                            Line 1</label>
+                        <input type="text" name="address1" placeholder="Enter Address 1"
+                            class="w-full bg-transparent border-[1px] border-solid border-[#eee] text-[#777] text-[14px] mb-[26px] px-[15px] outline-[0] rounded-[5px] h-[50px]"
+                            formControlName="address1">
+                    </span>
+
+                    <span class="gi-register-wrap gi-register-half w-[50%] px-[15px] py-[8px]">
+                        <label
+                            class="inline-block mb-[9px] text-[#4b5966] text-[15px] font-medium tracking-[0] leading-[1]">Address
+                            Line 2</label>
+                        <input type="text" name="address2" placeholder="Enter Address 1"
+                            class="w-full bg-transparent border-[1px] border-solid border-[#eee] text-[#777] text-[14px] mb-[26px] px-[15px] outline-[0] rounded-[5px] h-[50px]"
+                            formControlName="address2">
+                    </span>
+
+                    <span class="gi-register-wrap gi-register-half w-[50%] px-[15px] py-[8px]">
+                        <label
+                            class="inline-block mb-[9px] text-[#4b5966] text-[15px] font-medium tracking-[0] leading-[1]">Pin
+                            Code</label>
+                        <input type="text" name="pinCode" placeholder="Enter Pin Code"
+                            class="w-full bg-transparent border-[1px] border-solid border-[#eee] text-[#777] text-[14px] mb-[26px] px-[15px] outline-[0] rounded-[5px] h-[50px]"
+                            formControlName="pinCode">
+                    </span>
+
+                    <span class="gi-register-wrap gi-register-half w-[50%] px-[15px] py-[8px]">
+                        <label
+                            class="inline-block mb-[9px] text-[#4b5966] text-[15px] font-medium tracking-[0] leading-[1]">Country</label>
+                        <search-dropdown placeholder="Select Country" [dropdownType]="DROPDOWN_TYPE.SEARCH"
+                            (changeEvent)="selectedCountry($event)" [options]="countryList" [fieldLabel]="'Country'"
+                            optionViewKey="name" [outputPattern]="['id']" formControlName="country">
+                        </search-dropdown>
+                    </span>
+
+                    <span class="gi-register-wrap gi-register-half w-[50%] px-[15px] py-[8px]">
+                        <label
+                            class="inline-block mb-[9px] text-[#4b5966] text-[15px] font-medium tracking-[0] leading-[1]">State</label>
+                        <search-dropdown placeholder="Select State" [dropdownType]="DROPDOWN_TYPE.SEARCH"
+                            [fieldLabel]="'State'" (changeEvent)="selectedState($event)" [options]="stateList"
+                            optionViewKey="name" [outputPattern]="['id']" formControlName="state">
+                        </search-dropdown>
+                    </span>
+
+                    <span class="gi-register-wrap gi-register-half w-[50%] px-[15px] py-[8px]">
+                        <label
+                            class="inline-block mb-[9px] text-[#4b5966] text-[15px] font-medium tracking-[0] leading-[1]">City</label>
+                        <search-dropdown placeholder="Select City" [dropdownType]="DROPDOWN_TYPE.SEARCH"
+                            [fieldLabel]="'City'" [options]="cityList" optionViewKey="name" [outputPattern]="['id']"
+                            formControlName="city">
+                        </search-dropdown>
+                    </span>
+
+                </ng-container>
+
+                <span
+                    class="gi-register-wrap gi-register-btn flex flex-row justify-between items-center w-full px-[15px] max-[767px]:flex-col ">
+                    <span class="text-[#777] text-[14px] tracking-[0.02rem]">
+                        Already have an account?
+                        <a (click)="goTo('/sign-in')" class="ml-[7px] text-[#10b2e3]! text-[14px]">
+                            Login
+                        </a>
+                    </span>
+                    <button type="submit"
+                        class="gi-btn-1 py-[8px] px-[15px] bg-[#4b5966] text-[#fff] border-[0] transition-all duration-[0.3s] ease-in-out overflow-hidden text-center text-[14px] font-semibold relative rounded-[5px] max-[767px]:mt-[15px] hover:bg-[#10b2e3]">
+                        Register
+                    </button>
+                </span>
+            </form>
+        </div>
+    </div>
+</div>

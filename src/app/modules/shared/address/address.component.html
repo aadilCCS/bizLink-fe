@@ -1,0 +1,110 @@
+<div class="gi-checkout-content">
+    <div class="gi-checkout-inner">
+        <div class="gi-checkout-wrap p-[30px] border-[1px] border-solid border-[#eee] bg-[#fff] rounded-[5px]">
+            <div class="gi-checkout-block gi-check-bill">
+                <h3
+                    class="gi-checkout-title mb-[26px]! leading-[1.2]! text-[20px]! font-semibold tracking-[0] relative block text-[#4b5966]! font-Montserrat max-[575px]:text-[18px]">
+                    Add Address Details
+                </h3>
+                <button type="button" class="btn-close qty_close" (click)="closeDialog()"></button>
+                <div class="gi-bl-block-content">
+
+                    <div class="gi-check-bill-form mb-[2px]">
+                        <form [formGroup]="shippingForm" (ngSubmit)="onSubmit()"
+                            class="flex flex-row flex-wrap mx-[-15px]">
+                            <span class="gi-bill-wrap gi-bill-half w-[50%] px-[15px] mt-3">
+                                <label
+                                    class="mb-[7px] text-[#4b5966] text-[15px] font-medium tracking-[0] leading-[1] inline-block">
+                                    Full Name
+                                </label>
+                                <input type="text" name="fullname" placeholder="Enter Your Full Name"
+                                    formControlName="fullName"
+                                    class="bg-transparent border-[1px] border-solid border-[#eee] text-[#4b5966] text-[14px] mb-[26px] px-[15px] w-full outline-[0] rounded-[5px] h-[50px]"
+                                    required>
+                            </span>
+
+                            <span class="gi-bill-wrap gi-bill-half w-[50%] px-[15px] mt-3">
+                                <label
+                                    class="mb-[7px] text-[#4b5966] text-[15px] font-medium tracking-[0] leading-[1] inline-block">
+                                    Phone Number
+                                </label>
+                                <input type="text" name="phoneNo" placeholder="Phone Number" formControlName="phoneNo"
+                                    class="bg-transparent border-[1px] border-solid border-[#eee] text-[#4b5966] text-[14px] mb-[26px] px-[15px] w-full outline-[0] rounded-[5px] h-[50px]">
+                            </span>
+
+                            <span class="gi-bill-wrap gi-bill-half w-[50%] px-[15px] mt-3">
+                                <label
+                                    class="mb-[7px] text-[#4b5966] text-[15px] font-medium tracking-[0] leading-[1] inline-block">
+                                    Address Line 1
+                                </label>
+                                <input type="text" name="address1" placeholder="Address Line 1"
+                                    formControlName="address1"
+                                    class="bg-transparent border-[1px] border-solid border-[#eee] text-[#4b5966] text-[14px] mb-[26px] px-[15px] w-full outline-[0] rounded-[5px] h-[50px]"
+                                    required>
+                            </span>
+
+                            <span class="gi-bill-wrap gi-bill-half w-[50%] px-[15px] mt-3">
+                                <label
+                                    class="mb-[7px] text-[#4b5966] text-[15px] font-medium tracking-[0] leading-[1] inline-block">
+                                    Address Line 2
+                                </label>
+                                <input type="text" name="address2" placeholder="Address Line 2"
+                                    formControlName="address2"
+                                    class="bg-transparent border-[1px] border-solid border-[#eee] text-[#4b5966] text-[14px] mb-[26px] px-[15px] w-full outline-[0] rounded-[5px] h-[50px]">
+                            </span>
+
+                            <span class="gi-bill-wrap gi-bill-half w-[50%] px-[15px] mt-3">
+                                <label
+                                    class="mb-[7px] text-[#4b5966] text-[15px] font-medium tracking-[0] leading-[1] inline-block">
+                                    Pin Code
+                                </label>
+                                <input type="text" name="pinCode" placeholder="Pin Code" formControlName="pinCode"
+                                    class="bg-transparent border-[1px] border-solid border-[#eee] text-[#4b5966] text-[14px] mb-[26px] px-[15px] w-full outline-[0] rounded-[5px] h-[50px]">
+                            </span>
+
+                            <span class="gi-register-wrap gi-register-half w-[50%] px-[15px] py-[8px]">
+                                <label
+                                    class="inline-block mb-[9px] text-[#4b5966] text-[15px] font-medium tracking-[0] leading-[1]">Country</label>
+                                <search-dropdown placeholder="Select Country" [dropdownType]="DROPDOWN_TYPE.SEARCH"
+                                    [fieldLabel]="'Country'" (changeEvent)="selectedCountry($event)"
+                                    [options]="countryList" optionViewKey="name" [outputPattern]="['id']"
+                                    formControlName="country">
+                                </search-dropdown>
+                            </span>
+
+                            <span class="gi-register-wrap gi-register-half w-[50%] px-[15px] py-[8px]">
+                                <label
+                                    class="inline-block mb-[9px] text-[#4b5966] text-[15px] font-medium tracking-[0] leading-[1]">State</label>
+                                <search-dropdown placeholder="Select State" [dropdownType]="DROPDOWN_TYPE.SEARCH"
+                                    [fieldLabel]="'State'" (changeEvent)="selectedState($event)" [options]="stateList"
+                                    optionViewKey="name" [outputPattern]="['id']" formControlName="state">
+                                </search-dropdown>
+                            </span>
+
+                            <span class="gi-register-wrap gi-register-half w-[50%] px-[15px] py-[8px]">
+                                <label
+                                    class="inline-block mb-[9px] text-[#4b5966] text-[15px] font-medium tracking-[0] leading-[1]">City</label>
+                                <search-dropdown placeholder="Select City" [dropdownType]="DROPDOWN_TYPE.SEARCH"
+                                    [fieldLabel]="'City'" [options]="cityList" optionViewKey="name"
+                                    [outputPattern]="['id']" formControlName="city">
+                                </search-dropdown>
+                            </span>
+
+                            <span class="gi-check-order-btn ml-[15px]">
+                                <button type="submit" [disabled]="shippingForm.invalid"
+                                    [ngClass]="{'opacity-50 cursor-not-allowed': shippingForm.invalid}"
+                                    [ngStyle]="{'pointer-events': shippingForm.invalid ? 'none' : 'auto'}"
+                                    class="gi-btn-2 transition-all duration-[0.3s] ease-in-out py-[10px] px-[15px] text-[14px] font-medium bg-[#10b2e3] text-[#fff] text-center rounded-[5px] hover:bg-[#4b5966] hover:text-[#fff]">
+                                    Submit
+                                </button>
+                            </span>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

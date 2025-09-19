@@ -1,0 +1,5 @@
+- [x] Update Category model to include subCategory property
+- [x] Update SubCategory model to match API (id, name, productCount)
+- [x] Modify header.component.html to dynamically render categories and subcategories in tabs
+- [x] Update header.component.ts to use getCategoryListAll() for fetching categories
+- [x] Test the dynamic dropdown functionality

@@ -1,0 +1,216 @@
+<div class="bg-white">
+  <app-bread-crumb breadCrumbName="Shopping Cart"></app-bread-crumb>
+
+  <section class="gi-cart-section py-[40px] max-[767px]:py-[30px]">
+    <h2 class="hidden">Cart Page</h2>
+    <div
+      class="flex flex-wrap justify-between items-center mx-auto min-[1600px]:max-w-[1600px] min-[1400px]:max-w-[1320px] min-[1200px]:max-w-[1140px] min-[992px]:max-w-[960px] min-[768px]:max-w-[720px] min-[576px]:max-w-[540px] relative">
+      <div class="flex flex-wrap w-full">
+        <!-- Sidebar Area Start -->
+        <div class="gi-cart-leftside min-[992px]:w-[66.66%] w-full px-[12px] max-[991px]:mt-[30px]">
+          <div class="shopping-cart max-w-6xl mx-auto px-3 font-poppins">
+            @for(cart of cartItemList; track cart._id){
+            <div class="company-group border-b border-gray-300 pb-1 mb-5">
+              <div class="product-group ml-5 mb-4">
+                <div class="product-header flex items-center mb-3">
+                  <img
+                    [attr.src]="cart?.productId?.image[0] | secureImage: '/assets/img/product-images/4_1.jpg' | async"
+                    alt="Product Image" class="w-20 h-20 object-cover rounded border border-gray-300 mr-4" />
+                  <div class="product-info flex-grow">
+                    <div class="product-name font-semibold text-gray-900 mb-1"
+                      (click)="goTo('/shop/product-details/'+ cart?.productId?._id)">{{ cart?.productId?.name }}</div>
+                    <div class="product-meta text-sm text-gray-600 mb-1">
+                      <span class="text-red-600 font-semibold">1 sold recently</span> &middot;
+                      <span>Delivery by {{ getNext7thDayDate() }}</span> &middot;
+                      <span>Easy Return</span>
+                    </div>
+                    <div class="min-order text-xs text-gray-500">Min. order: {{getFirstMoqMin(cart?.model)}} | pieces
+                    </div>
+                  </div>
+                  <div>
+                    <i class="bi bi-trash text-red-600" (click)="removeCartItem(cart._id)"></i>
+                    <!-- <i class="bi bi-pencil-square" (click)="updateCartItem(cart._id , cart)"></i> -->
+                  </div>
+                </div>
+
+                @for(model of cart.model; track model._id){
+                <div class="variation-row flex items-center bg-gray-100 rounded p-2 mb-2">
+                  <div class="variation-color flex-grow text-gray-800 text-sm">
+                    <b>Model Name:</b> {{ model?.name }}
+                    <span class="ml-3 font-semibold text-gray-900">
+                      ₹{{ getPriceForQuantity(model, model.quantity) | number:'1.2-2' }} | Piece
+                    </span>
+                  </div>
+
+                  <div class="quickview-pro-content">
+                    <div class="gi-quickview-qty">
+                      <div class="qty-plus-minus bg-white">
+                        <div class="dec gi-qtybtn" (click)="decrementQuantity(model)">-</div>
+                        <input class="qty-input" name="gi_qtybtn" [value]="model.quantity || 0"
+                          (input)="onQuantityChange(model, $event)" min="0" />
+                        <div class="inc gi-qtybtn" (click)="incrementQuantity(model)">+</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="variation-total font-bold text-gray-900 min-w-[70px] text-right ps-4">
+                    ₹{{( model.subTotal | number:'1.2-2') ?? 0 }}
+                  </div>
+
+                  <div class="ps-3">
+                    <i class="bi bi-pencil-square" (click)="updateCartItem(cart._id , model)"></i>
+                  </div>
+                </div>
+                }
+              </div>
+            </div>
+            } @empty {
+            <div class="w-full flex items-center justify-center">
+              <img src="assets/img/product-not-found.jpg" alt="" class="w-[200px] h-[200px]">
+            </div>
+            }
+          </div>
+        </div>
+
+        <div class="gi-cart-rightside min-[992px]:w-[33.33%] w-full px-[12px]">
+          <div class="gi-sidebar-wrap p-[15px] rounded-[5px] border-[1px] border-solid border-[#eee] mb-[0]">
+            <!-- Sidebar Summary Block -->
+            <div class="gi-sidebar-block">
+              <div class="gi-sb-title">
+                <h3
+                  class="gi-sidebar-title text-[20px] font-semibold tracking-[0] mb-[0] leading-[1.2] relative text-[#4b5966] max-[1199px]:text-[18px]">
+                  Summary</h3>
+              </div>
+              <div class="gi-sb-block-content mb-[0] border-b-[0] mt-[15px]">
+                <div class="gi-cart-summary-bottom">
+                  <div class="gi-cart-summary">
+                    <div class="flex justify-between items-center mb-[10px]">
+                      <span class="text-left text-[#4b5966] text-[14px] leading-[24px] tracking-[0]">Sub-Total</span>
+                      <span
+                        class="text-right text-[#4b5966] text-[14px] leading-[24px] font-medium">₹{{getSubTotal().toFixed(2)}}</span>
+                    </div>
+                    <div class="flex justify-between items-center mb-[10px]">
+                      <span class="text-left text-[#4b5966] text-[14px] leading-[24px] tracking-[0]">GST Charge
+                        (18%)</span>
+                      <span
+                        class="text-right text-[#4b5966] text-[14px] leading-[24px] font-medium">₹{{getGst().toFixed(2)}}</span>
+                    </div>
+                    <div
+                      class="gi-cart-summary-total border-t-[1px] border-solid border-[#eee] pt-[19px] mb-[0] mt-[16px] flex justify-between items-center">
+                      <span class="text-left text-[16px] font-medium text-[#4b5966] leading-[24px] tracking-[0]">Total
+                        Amount</span>
+                      <span
+                        class="text-right text-[16px] font-medium text-[#4b5966] leading-[24px] tracking-[0]">₹{{getGrandTotal().toFixed(2)}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap">
+            <div class="w-full">
+              <div class="gi-cart-update-bottom pt-[15px] flex justify-between">
+                <button type="button" (click)="goTo('/checkout')"
+                  class="gi-btn-2 transition-all duration-[0.3s] ease-in-out overflow-hidden text-center relative rounded-[5px] py-[10px] max-[767px]:py-[6px] px-[15px] max-[767px]:px-[10px] bg-[#10b2e3] text-[#fff] border-[0] text-[14px] max-[767px]:text-[13px] tracking-[0] font-medium inline-flex items-center hover:bg-[#4b5966] hover:text-[#fff]">
+                  Check Out
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <section class="gi-product-tab gi-products padding-tb-40 wow fadeInUp w-full" data-wow-duration="2s">
+        <div class="container">
+          <div>
+            <div class="section-title justify-center!">
+              <div class="section-detail text-center">
+                <h2 class="gi-title">New <span>Arrivals</span></h2>
+                <p>Shop online for new arrivals and get free shipping!</p>
+              </div>
+            </div>
+          </div>
+          <!-- New Product -->
+          <div class="row m-b-minus-24px">
+            <div class="col">
+              <div class="tab-content">
+                <div class="tab-pane fade show active product-block" id="all">
+                  <div class="row">
+                    @for (product of newArrivalList?.items; track product.id) {
+                    <div class="col-md-3 col-sm-6 col-xs-6">
+                      <div class="gi-product-content">
+                        <div class="gi-product-inner">
+                          <div class="gi-pro-image-outer">
+                            <div class="gi-pro-image">
+                              <a class="image">
+                                <span class="label veg">
+                                  <span class="dot"></span>
+                                </span>
+                                <img
+                                  [attr.src]="(product.image[0] | secureImage: 'assets/img/product-images/default-img.png') | async"
+                                  alt="" class="img-fluid" />
+                              </a>
+                              <span class="flags">
+                                <span class="sale">Sale</span>
+                              </span>
+                              <div class="gi-pro-actions">
+                                <a class="gi-btn-group wishlist" (click)="_globalService.addToWishlist(product.id)"
+                                  [ngClass]="{'isSelected': product.isWishlisted}" title="Wishlist">
+                                  <i class="bi bi-heart"></i>
+                                </a>
+                                <a class="gi-btn-group quickview" (click)="_globalService.openQuickView(product)"
+                                  title="Quick view">
+                                  <i class="bi bi-eye"></i>
+                                </a>
+                                <!-- <a title="Add To Cart" class="gi-btn-group add-to-cart"
+                                  (click)="_globalService.addToCart(product)"
+                                  [ngClass]="{'isSelected': product.isAddToCart}">
+                                  <i class="bi bi-bag"></i>
+                                </a> -->
+                              </div>
+                            </div>
+                          </div>
+                          <div class="gi-pro-content" (click)="goTo('/shop/product-details/'+ product?.id)">
+                            <a>
+                              <h6 class="gi-pro-stitle">{{product?.subCategory?.name}}</h6>
+                            </a>
+                            <h5 class="gi-pro-title truncate">
+                              <a>{{product?.name}}</a>
+                            </h5>
+                            <div class="gi-pro-rat-price">
+                              <span class="gi-pro-rating">
+                                <bar-rating class="star" effect [max]="5" [rate]="product?.ratings || 4"
+                                  [readonly]="true">
+                                </bar-rating>
+                              </span>
+
+                              <span class="gi-price">
+                                <span class="new-price">
+                                  ₹ {{product?.priceRange}}
+                                </span>
+                              </span>
+                              <span class="text-[#999] text-[13px] capitalize">
+                                min. order: {{product?.minOrder}} piece
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    } @empty {
+                    <div class="w-full flex items-center justify-center">
+                      <img src="assets/img/product-not-found.jpg" alt="" class="w-[200px] h-[200px]">
+                    </div>
+                    }
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </section>
+</div>

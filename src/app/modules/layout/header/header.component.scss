@@ -1,0 +1,142 @@
+.searchBar {
+    position: absolute;
+    top: 53px;
+    background: #fff;
+    color: #10b2e3;
+    width: auto;
+    z-index: 999;
+    border-radius: 5px;
+    padding: 5px;
+    box-shadow: 2px 2px 5px 1px #d3d3d3eb;
+
+    li {
+        margin-bottom: 10px;
+    }
+
+    li:hover {
+        background-color: #10b2e3;
+        color: #fff;
+    }
+}
+
+.visualImageSearchModalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 1050;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.visualImageSearchModal {
+    background: white;
+    border-radius: 12px;
+    width: 600px;
+    max-width: 90%;
+    padding: 20px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    height: 300px !important;
+    max-height: 300px !important;
+}
+
+.modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.modalHeader h5 {
+    margin: 0;
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+.closeBtn {
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.modalBody {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.dropZoneContent {
+    margin-top: 80px;
+    border: 2px dashed lightgray;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+    color: #666;
+}
+
+.uploadIcon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.browseBtn {
+    margin-top: 10px;
+    background-color: #10b2e3;
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.browseBtn:hover {
+    background-color: #d719227e;
+}
+
+.uploadBtn {
+    margin-top: 20px;
+    background-color: #10b2e3;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.uploadBtn:hover {
+    background-color: #e65c00;
+}
+
+.ngx-file-drop__drop-zone {
+    height: 120px !important;
+    margin: auto !important;
+    border: 4px dotted lightgray;
+    border-radius: 8px !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.dropZone {
+    height: 200px;
+    padding: 20px;
+    border: 3px dashed lightgray !important;
+    border-radius: 8px !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

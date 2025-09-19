@@ -1,0 +1,74 @@
+<section
+    class="gi-single-product py-[40px] max-[767px]:py-[30px] relative bg-[#fff] transition-all duration-[0.5s] ease">
+    <div class="container">
+        <div class="tab-single-pane p-4 border-[1px] border-solid border-[#eee]">
+            <div class="gi-single-pro-tab-moreinfo">
+                <div class="gi-product-vendor">
+                    <div class="gi-vendor-info mb-[15px] flex flex-row">
+                        <span>
+                            <img class="w-[80px] mr-[15px] border-[1px] border-solid border-[#eee]"
+                                [attr.src]="(userDetails?.businessInfo?.logo | secureImage: 'assets/img/user/dummy-user.jpg') | async"
+                                alt="Product Image" />
+                        </span>
+                        <div>
+                            <h5 class="text-[15px] font-semibold text-[#4b5966]">
+                                {{userDetails?.name}}</h5>
+                            <p>
+                                {{userDetails?.businessInfo?.tradeName}}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="gi-detail">
+                        <ul class="mb-[15px] pl-[24px]">
+                            <li class="mb-[4px] text-[15px] list-disc text-[#777] max-[575px]:mb-[10px]">
+                                <span
+                                    class="mr-[25px] min-w-[150px] text-[15px] text-[#4b5966] inline-block font-medium tracking-[0.02rem] max-[575px]:w-full">Phone
+                                    No. :</span> {{userDetails?.phoneNo}}
+                            </li>
+                            <li class="mb-[4px] text-[15px] list-disc text-[#777] max-[575px]:mb-[10px]">
+                                <span
+                                    class="mr-[25px] min-w-[150px] text-[15px] text-[#4b5966] inline-block font-medium tracking-[0.02rem] max-[575px]:w-full">Email.
+                                    :</span> {{userDetails?.email}}
+                            </li>
+                            <li class="mb-[4px] text-[15px] list-disc text-[#777] max-[575px]:mb-[10px]">
+                                <span
+                                    class="mr-[25px] min-w-[150px] text-[15px] text-[#4b5966] inline-block font-medium tracking-[0.02rem] max-[575px]:w-full">Address.
+                                    :</span>
+                                {{userDetails?.address?.address1}},
+                                {{userDetails?.address?.address2}},
+                                {{userDetails?.address?.country?.name}},
+                                {{userDetails?.address?.state?.name}},
+                                {{userDetails?.address?.city?.name}},
+                                {{userDetails?.address?.pinCode}}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @for(product of productList; track product.id){
+        <div class="company-group border-b border-gray-300 pb-1 mb-5 mt-5 cursor-pointer">
+            <div class="product-group ml-5 mb-4">
+                <div class="product-header flex items-center mb-3" (click)="goTo('/shop/product-details/'+ product?.id)">
+                    <img [attr.src]="product?.image | secureImage: '/assets/img/product-images/4_1.jpg' | async"
+                        alt="Product Image" class="w-20 h-20 object-cover rounded border border-gray-300 mr-4" />
+                    <div class="product-info flex-grow">
+                        <div class="product-name font-semibold text-gray-900 mb-1">{{ product?.name }}
+                        </div>
+                        <div class="product-meta text-sm text-gray-600 mb-1">
+                            <span class="text-red-600 font-semibold">1 sold recently</span> &middot;
+                            <span>Delivery by {{ getNext7thDayDate() }}</span> &middot;
+                            <span>Easy Return</span>
+                        </div>
+                        <div class="min-order text-xs text-gray-500">Min. order: {{getFirstMoqMin(product?.model)}} |
+                            pieces
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        }
+    </div>
+</section>

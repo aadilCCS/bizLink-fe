@@ -1,0 +1,13 @@
+<app-sidenav>
+    @if(routeUrlName !== '/register' && routeUrlName !== '/sign-in'){
+    <app-header></app-header>
+    }
+    <!-- Chat Component -->
+    @if(isLoggedIn){
+    <app-chat></app-chat>
+    }
+    <ng-content></ng-content>
+    @if(routeUrlName !== '/register' && routeUrlName !== '/sign-in'){
+    <app-footer> </app-footer>
+    }
+</app-sidenav>

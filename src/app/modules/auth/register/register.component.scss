@@ -1,0 +1,15 @@
+.eye-btn {
+    position: absolute;
+    right: 20px;
+    top: 36px;
+}
+
+.scrollForm {
+    max-height: 420px;
+    overflow: auto;
+}
+
+.scrollForm::-webkit-scrollbar {
+    display: none;
+    /* Hides scrollbar in Webkit browsers */
+}

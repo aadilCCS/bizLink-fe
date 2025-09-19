@@ -1,0 +1,216 @@
+<div class="chat-container">
+  <!-- Chat Toggle Button -->
+  <button *ngIf="!isAdminMode" class="chat-toggle-btn" (click)="toggleChat()" [class.active]="isChatOpen">
+    <i class="bi bi-chat-dots"></i>
+    <span class="notification-dot" *ngIf="messages.length > 0 && !isChatOpen"></span>
+  </button>
+
+  <!-- Admin Panel Toggle Button (only for admins) -->
+  <button *ngIf="isAdminMode" class="admin-toggle-btn" (click)="toggleAdminPanel()" [class.active]="showAdminPanel">
+    <i class="bi bi-person-badge"></i>
+    <span>Admin</span>
+  </button>
+
+  <!-- Admin Panel -->
+  <div *ngIf="showAdminPanel && isAdminMode" class="admin-panel">
+    <div class="admin-panel-header">
+      <h3>Admin Chat Dashboard</h3>
+      <button class="close-btn" (click)="toggleAdminPanel()">
+        <i class="bi bi-x"></i>
+      </button>
+    </div>
+
+    <div class="admin-sessions">
+      <!-- Admin Status Controls -->
+      <div class="admin-status-controls">
+        <h4>Admin Status</h4>
+        <div class="status-buttons">
+          <button (click)="markAdminAsAvailable()" 
+                  class="status-btn available" 
+                  [class.active]="adminStatus === 'available'">
+            <i class="bi bi-check-circle"></i>
+            Available
+          </button>
+          <button (click)="markAdminAsBusy()" 
+                  class="status-btn busy" 
+                  [class.active]="adminStatus === 'busy'">
+            <i class="bi bi-slash-circle"></i>
+            Busy
+          </button>
+        </div>
+      </div>
+
+      <div class="sessions-header">
+        <h4>Active Sessions</h4>
+        <button (click)="loadAdminSessions()" class="refresh-btn" [disabled]="adminLoading">
+          <i class="bi bi-arrow-clockwise"></i>
+        </button>
+      </div>
+
+      <div *ngIf="adminLoading" class="loading">
+        <div class="spinner"></div>
+        Loading sessions...
+      </div>
+
+      <div *ngIf="!adminLoading && adminSessions.length === 0" class="no-sessions">
+        <i class="bi bi-chat-dots"></i>
+        <p>No active chat sessions</p>
+      </div>
+
+      <div class="sessions-list">
+        <div *ngFor="let session of adminSessions" class="session-item"
+          [class.selected]="selectedAdminSession?.id === session.id" (click)="selectAdminSession(session)">
+          <div class="session-info">
+            <div class="session-user">
+              <i class="bi bi-person-circle"></i>
+              <span>User {{ session?.userId?.name }}</span>
+            </div>
+
+            <div class="session-details">
+              <span class="session-status" [class]="getSessionStatusClass(session.status)">
+                {{ getSessionStatusText(session.status) }}
+              </span>
+              <span class="session-time">
+                {{ session.createdAt | date:'shortTime' }}
+              </span>
+            </div>
+          </div>
+
+          <div class="session-metrics">
+            <span class="message-count">
+              <i class="bi bi-chat-text"></i>
+              {{ session.messages.length }} messages
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Selected Session Chat -->
+    <div *ngIf="selectedAdminSession" class="selected-session-chat">
+      <div class="session-chat-header">
+        <div class="session-info">
+          <i class="bi bi-person-circle"></i>
+          <div>
+            <h4>User {{ selectedAdminSession.userId?.name }}</h4>
+            <span class="session-status">
+              {{ selectedAdminSession.status | titlecase }}
+            </span>
+          </div>
+        </div>
+        <div class="session-actions">
+          <button (click)="leaveAdminSession()" class="action-btn" title="Leave Session">
+            <i class="bi bi-box-arrow-right"></i>
+          </button>
+          <button (click)="closeAdminSession()" class="action-btn danger" title="Close Session">
+            <i class="bi bi-x-circle"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="messages-container">
+        <div *ngIf="messages.length === 0" class="no-messages">
+          <i class="bi bi-chat"></i>
+          <p>No messages in this session</p>
+        </div>
+
+        <div class="messages">
+          <div *ngFor="let message of messages" class="message" [class]="getMessageClass(message)">
+            <div class="message-avatar">
+              <i *ngIf="message.sender === 'user'" class="bi bi-person-circle"></i>
+              <i *ngIf="message.sender === 'bot'" class="bi bi-robot"></i>
+              <i *ngIf="message.sender === 'admin'" class="bi bi-person-badge"></i>
+            </div>
+            <div class="message-content">
+              <div class="message-text">{{ message.content }}</div>
+              <div class="message-time">{{ formatTime(message.timestamp) }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="input-container">
+        <input type="text" [(ngModel)]="newMessage" (keyup.enter)="sendAdminMessage()"
+          placeholder="Type your message..." [disabled]="!isConnected" class="message-input">
+        <button (click)="sendAdminMessage()" [disabled]="!newMessage.trim() || !isConnected" class="send-btn">
+          <i class="bi bi-send"></i>
+        </button>
+      </div>
+      
+    </div>
+  </div>
+
+  <!-- Chat Window -->
+  <div class="chat-window" [class.open]="isChatOpen">
+    <!-- Chat Header -->
+    <div class="chat-header">
+      <div class="chat-title">
+        <i class="bi bi-chat-dots-fill"></i>
+        <span>Support Chat</span>
+      </div>
+      <div class="chat-status" [class.connected]="isConnected" [class.admin]="adminConnected">
+        {{ adminConnected ? 'Admin Connected' : (isConnected ? 'Online' : 'Offline') }}
+      </div>
+      <button class="close-btn" (click)="toggleChat()">
+        <i class="bi bi-x"></i>
+      </button>
+    </div>
+
+    <!-- Messages Container -->
+    <div class="messages-container" #messagesContainer>
+      <!-- Welcome Message -->
+      @if(messages.length == 0 && isConnected){
+      <div class="welcome-message">
+        <div class="bot-message">
+          <div class="message-content">
+            <strong>Hello! 👋</strong>
+            <p>Welcome to bizLink support. How can I help you today?</p>
+          </div>
+          <div class="message-time">{{ formatTime(currentDate) }}</div>
+        </div>
+      </div>
+      }
+
+      <!-- Messages -->
+      <div *ngFor="let message of messages" class="message" [class]="getMessageClass(message)">
+        <div class="message-avatar">
+          <i *ngIf="message.sender === 'user'" class="bi bi-person-circle"></i>
+          <i *ngIf="message.sender === 'bot'" class="bi bi-robot"></i>
+          <i *ngIf="message.sender === 'admin'" class="bi bi-person-badge"></i>
+        </div>
+        <div class="message-content">
+          <div class="message-text">{{ message.content }}</div>
+          <div class="message-time">{{ formatTime(message.timestamp) }}</div>
+        </div>
+      </div>
+
+      <!-- Predefined Questions -->
+      <div *ngIf="showQuestions && isConnected" class="predefined-questions">
+        <div class="questions-header">Quick Questions:</div>
+        <button *ngFor="let question of predefinedQuestions" class="question-btn"
+          (click)="question.isConnectToAdmin ? connectToAdminHttp() : sendPredefinedQuestion(question.id)">
+          {{ question.question }}
+        </button>
+      </div>
+
+      <!-- Typing Indicator -->
+      <div *ngIf="sessionStatus === 'waiting'" class="typing-indicator">
+        <div class="typing-dots">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <span>Admin is typing...</span>
+      </div>
+    </div>
+
+    <!-- Input Area -->
+    <div class="input-container">
+      <input type="text" [(ngModel)]="newMessage" (keyup.enter)="sendMessage()" placeholder="Type your message..."
+        [disabled]="!isConnected" class="message-input">
+      <button (click)="sendMessage()" [disabled]="!newMessage.trim() || !isConnected" class="send-btn">
+        <i class="bi bi-send"></i>
+      </button>
+    </div>
+  </div>
+</div>

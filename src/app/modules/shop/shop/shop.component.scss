@@ -1,0 +1,16 @@
+::ng-deep {
+  .custom-slider {
+    .ngx-slider {
+      .ngx-slider-pointer {
+        background: #10b2e3 !important;
+      }
+      .ngx-slider-pointer:hover {
+        background: #d71922a6 !important;
+      }
+
+      .ngx-slider-selection {
+        background: #10b2e3 !important;
+      }
+    }
+  }
+}

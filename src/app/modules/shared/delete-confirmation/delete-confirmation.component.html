@@ -1,0 +1,15 @@
+<h4 class="popup-heading font-bold text-lg px-6 py-3 bg-primary text-white flex justify-between">Delete {{data?.module}}
+    <!-- <mat-icon class="text-white text-lg cursor-pointer" mat-dialog-close>close</mat-icon> -->
+    <i class="bi bi-x" mat-dialog-close></i>
+</h4>
+<div class=" rounded p-6">
+    <span class="text-2xl font-bold">
+        {{data?.text ?? 'Are you sure do you want to delete this '+data?.module+'?'}}
+    </span>
+    <p *ngIf="data?.text2" class="text-2xl mt-3 text-center">{{data?.text2}}</p>
+</div>
+
+<div class="text-center p-3 mt-4">
+    <button mat-stroked-button mat-dialog-close class="rounded me-3 bg-[#FFFFFF]">Cancel</button>
+    <button mat-raised-button color="primary" class="rounded  bg-primary text-white" (click)="onSubmit()">Delete</button>
+</div>

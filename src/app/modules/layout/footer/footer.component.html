@@ -1,0 +1,154 @@
+<!-- Footer Start -->
+<footer class="gi-footer">
+    <div class="footer-container">
+        <div class="footer-top padding-tb-80">
+            <div class="container">
+                <div class="row m-minus-991">
+                    <div class="col-sm-12 col-lg-3 gi-footer-cat wow fadeInUp">
+                        <div class="gi-footer-widget gi-footer-company">
+                            <!-- <img src="assets/img/logo/logo.png" class="gi-footer-logo" alt="footer logo"> -->
+                            <img [attr.src]=" companyDetails?.companyLogo | secureImage:'assets/img/logo/logo.png' | async"
+                                style="width: 100px;margin-bottom: 21px;">
+                            <p class="gi-footer-detail">
+                                {{companyDetails?.companyDescription ?? '-'}}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-lg-2 gi-footer-info wow fadeInUp" data-wow-delay="0.2s">
+                        <div class="gi-footer-widget">
+                            <h4 class="gi-footer-heading">Category</h4>
+                            @for (category of categoryList; track category.id) {
+                            <div class="gi-footer-links gi-footer-dropdown">
+                                <ul class="align-itegi-center">
+                                    @for(subCat of category.subCategory; track subCat.id) {
+                                    <li class="gi-footer-link" (click)="goTo('/shop/'+ subCat?.id)">
+                                        <a>{{subCat?.name}}</a></li>
+                                    } @empty {
+                                    <li>There is no categories available.</li>
+                                    }
+                                </ul>
+                            </div>
+                            }
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-lg-2 gi-footer-account wow fadeInUp" data-wow-delay="0.3s">
+                        <div class="gi-footer-widget">
+                            <h4 class="gi-footer-heading">Company</h4>
+                            <div class="gi-footer-links gi-footer-dropdown">
+                                <ul class="align-itegi-center">
+                                    <li class="gi-footer-link"><a>About us</a></li>
+                                    <li class="gi-footer-link"><a>Terms & conditions</a>
+                                    </li>
+                                    <li class="gi-footer-link"><a>Contact us</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-lg-2 gi-footer-service wow fadeInUp" data-wow-delay="0.4s">
+                        <div class="gi-footer-widget">
+                            <h4 class="gi-footer-heading">Account</h4>
+                            <div class="gi-footer-links gi-footer-dropdown">
+                                <ul class="align-itegi-center">
+                                    <li class="gi-footer-link"><a>View Cart</a></li>
+                                    <li class="gi-footer-link"><a>Return Policy</a></li>
+                                    <li class="gi-footer-link"><a>Become a Vendor</a></li>
+                                    <li class="gi-footer-link"><a>Affiliate Program</a></li>
+                                    <li class="gi-footer-link"><a>Payments</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-lg-3 gi-footer-cont-social wow fadeInUp" data-wow-delay="0.5s">
+                        <div class="gi-footer-contact">
+                            <div class="gi-footer-widget">
+                                <h4 class="gi-footer-heading">Contact</h4>
+                                <div class="gi-footer-links gi-footer-dropdown">
+                                    <ul class="align-itegi-center">
+                                        <li class="gi-footer-link gi-foo-location">
+                                            <span style="align-self: center;">
+                                                <i class="bi bi-geo-alt"></i>
+                                            </span>
+                                            <p>{{companyDetails?.companyAddress ?? '-'}}</p>
+                                        </li>
+                                        <li class="gi-footer-link gi-foo-call">
+                                            <span>
+                                                <i class="bi bi-whatsapp"></i>
+                                            </span>
+                                            <a href="tel:+009876543210">+91 {{companyDetails?.companyNumber ?? '-'}}</a>
+                                        </li>
+                                        <li class="gi-footer-link gi-foo-mail">
+                                            <span>
+                                                <i class="bi bi-envelope"></i>
+                                            </span>
+                                            <a>{{companyDetails?.companyEmail ?? '-'}}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="gi-footer-social">
+                            <div class="gi-footer-widget">
+                                <div class="gi-footer-links gi-footer-dropdown">
+                                    <ul class="align-itegi-center">
+                                        <li class="gi-footer-link">
+                                            <a>
+                                                <i class="bi bi-facebook" aria-hidden="true">
+                                                </i>
+                                            </a>
+                                        </li>
+                                        <li class="gi-footer-link">
+                                            <a>
+                                                <i class="bi bi-twitter" aria-hidden="true">
+                                                </i>
+                                            </a>
+                                        </li>
+                                        <li class="gi-footer-link">
+                                            <a>
+                                                <i class="bi bi-linkedin" aria-hidden="true">
+                                                </i>
+                                            </a>
+                                        </li>
+                                        <li class="gi-footer-link">
+                                            <a>
+                                                <i class="bi bi-instagram" aria-hidden="true">
+                                                </i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="gi-bottom-info">
+                        <!-- Footer Copyright Start -->
+                        <div class="footer-copy">
+                            <div class="footer-bottom-copy ">
+                                <div class="gi-copy">Copyright © <a class="site-name">bizLink</a>
+                                    all
+                                    rights reserved. Powered by bizLink.</div>
+                            </div>
+                        </div>
+                        <!-- Footer Copyright End -->
+                        <!-- Footer payment -->
+                        <div class="footer-bottom-right">
+                            <div class="footer-bottom-payment d-flex justify-content-center">
+                                <div class="payment-link">
+                                    <img src="assets/img/hero-bg/payment.png" alt="payment">
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- Footer payment -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- Footer Area End -->

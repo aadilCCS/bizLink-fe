@@ -17,7 +17,7 @@
                 </mat-form-field>
 
                 <div class="use-mat-dense md:w-6/12 w-full md:pr-5 inline-block" floatLabel="always">
-                    <app-ng-date-time-picker formControlName="pickupDate" placeholder="Select Pickup Date"
+                    <app-ng-date-time-picker class="w-full" formControlName="pickupDate" placeholder="Select Pickup Date"
                         labelText="Pickup Date" [showRangePicker]="false" [locale]="{ format: 'DD/MM/YYYY' }">
                     </app-ng-date-time-picker>
                 </div>
@@ -39,7 +39,7 @@
                     (click)="closeModal()">
                     Cancel
                 </button>
-                <button mat-raised-button color="primary" class="rounded ml-5" [disabled]="!submitEnable">
+                <button mat-raised-button color="primary" class="rounded ms-3" [disabled]="!submitEnable">
                     Save
                 </button>
             </div>

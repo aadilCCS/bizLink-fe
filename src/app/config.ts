@@ -7,6 +7,7 @@ export const GlobalVariable = Object.freeze({
 export const ApiUrls = Object.freeze({
 
     LOGIN_USER: `${GlobalVariable.BASE_URL}auth/signIn`,
+    GOOGLE_LOGIN: `${GlobalVariable.BASE_URL}auth/googleLogin`,
     ACCESS_CONTROLS: `${GlobalVariable.BASE_URL}auth/accessControls`,
     COMPANY_SETTINGS: `${GlobalVariable.BASE_URL}companySettings`,
 

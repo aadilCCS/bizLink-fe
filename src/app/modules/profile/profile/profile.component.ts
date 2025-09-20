@@ -45,11 +45,13 @@ export class ProfileComponent implements OnInit {
   // This will be the full list of all possible statuses
   public buyerStatusOptions: StatusOption[] = [
     { id: 'pending', name: 'pending' },
+    { id: 'confirmed', name: 'Confirmed' },
+    { id: 'shipped', name: 'Shipped' },
     { id: 'received', name: 'received' },
     { id: 'cancelled', name: 'cancelled' },
     { id: 'return', name: 'return' },
   ];
-  public buyerStatusSequence = ['pending', 'received', 'return', 'cancelled'];
+  public buyerStatusSequence = ['pending', 'confirmed', 'shipped', 'received', 'return', 'cancelled'];
 
   constructor(
     private fb: FormBuilder,
@@ -104,7 +106,7 @@ export class ProfileComponent implements OnInit {
     const currentStatusObj = this.buyerStatusOptions.find(s => s.id === itemStatus);
     if (currentStatusObj) {
       enabledOptions.push(currentStatusObj);
-      if (orderStatus === 'shipped' || orderStatus === 'delivered') {
+      if (orderStatus === 'confirmed' || orderStatus === 'shipped' || orderStatus === 'delivered') {
         const currentIndex = this.buyerStatusSequence.indexOf(currentStatusObj.id);
         if (currentIndex !== -1 && currentIndex < this.buyerStatusSequence.length - 1) {
           const nextStatusId = this.buyerStatusSequence[currentIndex + 1];
@@ -133,10 +135,12 @@ export class ProfileComponent implements OnInit {
         dialogData = await this.returnOrder(item, 'return');
       }
 
-      console.log("dialogData >>>", dialogData);
-      
+
       if (event === 'cancelled') {
         dialogData = await this.returnOrder(item, 'cancelled');
+      }
+      if (!dialogData) {
+        return;
       }
       if (dialogData) {
         const data = this.currentUserRole === 'buyer' ? { buyerStatus: event } : { status: event };
@@ -145,9 +149,9 @@ export class ProfileComponent implements OnInit {
       }
 
       // if (!dialogData && event !== 'received' && event !== 'return') {
-        const data = { buyerStatus: event };
-        await this._orderService.updateOrder(item.id, data);
-        this.getOrdersList();
+      // const data = { buyerStatus: event };
+      // await this._orderService.updateOrder(item.id, data);
+      // this.getOrdersList();
       // }
     } catch (error: any) {
       this._utilService.showErrorSnack(this._matSnackBar, error.error.message);
@@ -175,15 +179,15 @@ export class ProfileComponent implements OnInit {
     this.tabView = tabName;
   }
 
-  async generatePDF(id: any , orderNumber:any) {
-		try {
-			const response = await this._orderService.exportPdf(id);
-			const blobFileName = `${orderNumber ? orderNumber.replaceAll('/', '-') : 'order'}.pdf`;
-			this._utilService.saveAsFile(response, blobFileName);
-		} catch (error:any) {
-			this._utilService.showErrorSnack(this._matSnackBar, error?.error?.message)
-		}
-	}
+  async generatePDF(id: any, orderNumber: any) {
+    try {
+      const response = await this._orderService.exportPdf(id);
+      const blobFileName = `${orderNumber ? orderNumber.replaceAll('/', '-') : 'order'}.pdf`;
+      this._utilService.saveAsFile(response, blobFileName);
+    } catch (error: any) {
+      this._utilService.showErrorSnack(this._matSnackBar, error?.error?.message)
+    }
+  }
 
   onDelete(item: Order): void {
     const dialogRef = this._dialog.open(DeleteConfirmationComponent, {
@@ -198,13 +202,13 @@ export class ProfileComponent implements OnInit {
         try {
           await this._orderService.deleteOrder(item.id);
           this.getOrdersList();
-        } catch (error:any) {
+        } catch (error: any) {
           this._utilService.showErrorSnack(this._matSnackBar, error.error.message);
         }
       }
     });
   }
-  
+
   onSubmit() {
     if (this.profileForm.valid) {
       console.log('Form Submitted', this.profileForm.value);

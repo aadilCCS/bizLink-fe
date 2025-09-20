@@ -51,8 +51,6 @@ export class ReturnOrderComponent {
     // private _paymentService: PaymentService,
   ) {
     this.paymentAmount = data?.item?.item[0]?.grandTotal || 0;
-    console.log("data >>,", data);
-    
   }
 
   ngOnInit(): void {
@@ -90,7 +88,7 @@ export class ReturnOrderComponent {
     payload.orderNo = this.data.item.orderNumber;
     try {
       this.submitEnable = false;
-      const response: any = await this._returnOrderService.createReturnOrder(this.data.item.id, payload);
+      const response: any = await this._orderService.returnOrder(this.data.item.id, payload);
       this._utilService.showSuccessSnack(this._matSnackBar, response.message);
       this.dialogRef.close(true);
     } catch (error:any) {

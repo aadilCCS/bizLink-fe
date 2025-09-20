@@ -16,6 +16,9 @@ import { AuthService } from 'app/service/auth.service';
 import { StorageService } from 'app/service/storage.service';
 import { UserService } from 'app/service/user.service';
 import { UtilService } from 'app/service/util.service';
+import { environment } from 'environments/environment';
+import { jwtDecode } from "jwt-decode";
+declare const google: any;
 
 export type FuseAlertAppearance =
     | 'border'
@@ -72,9 +75,52 @@ export class LoginComponent implements OnInit {
             email: ['', [Validators.required]],
             password: ['', Validators.required],
         });
+
+        
     }
 
-   async signIn() {
+    initializeGoogleSignIn() {
+        // debugger
+        google.accounts.id.initialize({
+            client_id: environment.GOOGLE_KEY,
+            callback: this.handleCredentialResponse.bind(this)
+        });
+
+        google.accounts.id.prompt();
+    }
+
+    triggerGoogleSignIn() {
+        this.initializeGoogleSignIn();
+        google.accounts.id.prompt((notification: any) => {
+            if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+                // Try manual rendering
+                google.accounts.id.renderButton(
+                    document.getElementById("googleLoginButton"),
+                    { theme: "outline", size: "large", text: "continue_with" }
+                );
+            }
+        });
+    }
+
+    async handleCredentialResponse(response: any) {
+        try {
+            const decodedResponse: any = jwtDecode(response.credential);
+    
+            const payload = {
+                name : decodedResponse.name,
+                email: decodedResponse.email,
+                email_verified: decodedResponse.email_verified,
+            };
+            const result = await this._authService.googleLogin(payload);
+            this._utilService.loginUser(result);
+            this._router.navigate(['/home']);
+        } catch (error:any) {
+            this._utilService.showErrorSnack(this._matSnackBar, error.error.message);
+        }
+
+    }
+
+    async signIn() {
         if (this.signInForm.valid) {
             try {
                 this.signInForm.disable();

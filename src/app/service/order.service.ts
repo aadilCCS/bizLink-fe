@@ -25,6 +25,10 @@ export class OrderService {
     return lastValueFrom(this.http.delete<any>(`${ApiUrls.ORDER}/${orderId}`));
   }
 
+  returnOrder(orderId: string, payload:any): Promise<any> {
+    return lastValueFrom(this.http.post<any>(`${ApiUrls.ORDER}/${orderId}/return` , payload));
+  }
+
   cancelOrder(orderId: string, payload:any): Promise<any> {
     return lastValueFrom(this.http.post<any>(`${ApiUrls.ORDER}/${orderId}/cancel` , payload));
   }

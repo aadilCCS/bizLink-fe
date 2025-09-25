@@ -1,0 +1,20 @@
+name: Angular CI/CD
+
+on:
+  push:
+    branches: [ "prod_depl" ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploying to Back Office
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd /var/www/theicart.com/github/
+            ./frontend.sh

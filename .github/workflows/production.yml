@@ -16,5 +16,5 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           script: |
-            cd /var/www/theicart.com/github/
+            cd /var/www/thebizlinks.com/github/
             ./frontend.sh

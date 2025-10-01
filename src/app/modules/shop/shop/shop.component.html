@@ -171,8 +171,9 @@
                                 @for(category of categoryList; track category.id) {
                                 <ul>
                                     <li class="nav-item">
-                                        <a class="nav-link active cursor-pointer" (click)="getList('' , null)">All
-                                            Products</a>
+                                        <a class="nav-link active cursor-pointer" (click)="getList('' , null)">
+                                            {{category?.category}}
+                                        </a>
                                     </li>
 
                                     @for(item of category?.subCategory; track item.id) {
